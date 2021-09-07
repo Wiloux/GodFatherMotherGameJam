@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
-public class Player : MonoBehaviour
-{
-
+public class PlayerController : MonoBehaviour
+{ 
+    public Rewired.Player playerController;
     public float speed;
     private Rigidbody2D rg2D;
 
@@ -27,6 +28,6 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        
+        if (playerController.GetButtonDown("Jump")) { }
     }
 }
