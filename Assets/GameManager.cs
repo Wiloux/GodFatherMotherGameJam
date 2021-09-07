@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         // P1 Start game
         if (playersController[0] != null && ReInput.players.GetPlayer("P1").GetButtonDown("Start game"))
         {
-           // BeginGame();
+            BeginGame();
         }
 
         // Change Portraits
@@ -69,6 +69,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+
+
         // Join game
         Controller controller = null;
 
@@ -87,9 +89,21 @@ public class GameManager : MonoBehaviour
                 {
                     multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(0).gameObject.SetActive(false);
                     multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(1).gameObject.SetActive(true);
-                  //  multiplayerPanel.ChangePortraitSprite(i, 0);
+                    //  multiplayerPanel.ChangePortraitSprite(i, 0);
                 }
             }
+        }
+    }
+
+    public GameObject playerPrefab;
+
+    void BeginGame()
+    {
+        multiplayerPanel.SetActive(false);
+        for (int i = 0; i < playersController.Length; i++)
+        {
+            GameObject spawnedPlayer = Instantiate(playerPrefab);
+            spawnedPlayer.GetComponent<PlayerController>().playerController = ReInput.players.GetPlayer(i);
         }
     }
 
