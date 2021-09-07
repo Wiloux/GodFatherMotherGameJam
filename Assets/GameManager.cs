@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         {
             if (playersController[i] != null)
             {
-                Player player = ReInput.players.GetPlayer("P" + (i + 1));
+                Rewired.Player player = ReInput.players.GetPlayer("P" + (i + 1));
                 if (player.GetButtonDown("Leave game"))
                 {
                     RemoveController(i);
@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
             {
                 playersController[i] = controller;
 
-                Player player = ReInput.players.GetPlayer("P" + (i + 1));
+                Rewired.Player player = ReInput.players.GetPlayer("P" + (i + 1));
                 player.controllers.ClearAllControllers();
                 player.controllers.AddController(controller, true);
 
