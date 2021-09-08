@@ -8,6 +8,7 @@ public class TerrainDestruction : MonoBehaviour
 
     public TileBase brokenTile;
 
+    public float radius;
     public Tilemap terrain;
     public GameObject spr;
     // Start is called before the first frame update
@@ -20,21 +21,27 @@ public class TerrainDestruction : MonoBehaviour
 
     void DestroyTerrain(Vector3 explosionPosition, float radius)
     {
-        for (int x = -(int)radius; x < radius; x++)
+
+
+        for (int x = -(int)radius; x <= radius; x++)
         {
-            for (int y = -(int)radius; y < radius; y++)
+            for (int y = -(int)radius; y <= radius; y++)
             {
 
-                if (Mathf.Pow(x, 2) + Mathf.Pow(y, 2) < Mathf.Pow(radius, 2))
+                if ((y == -radius && x == -radius) || (y == -radius && x == radius ) || (y == radius && x == -radius) || (y == radius && x == radius))
                 {
+
+                }
+                else { 
+                    //if (Mathf.Pow(x, 2) + Mathf.Pow(y, 2) < Mathf.Pow(radius, 2))
+                    //{
                     Vector3Int tilePos = terrain.WorldToCell(explosionPosition + new Vector3(x, y, 0));
                     if (terrain.GetTile(tilePos) != null)
                     {
-                        Debug.Log(terrain.GetTile(tilePos).name);
                         DestroyTile(tilePos);
                     }
+                    //}
                 }
-
             }
         }
     }
@@ -65,7 +72,7 @@ public class TerrainDestruction : MonoBehaviour
             Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             spawnPos.z = 0;
             spr.transform.position = spawnPos;
-            DestroyTerrain(spawnPos, 2);
+            DestroyTerrain(spawnPos, radius);
         }
     }
 }
