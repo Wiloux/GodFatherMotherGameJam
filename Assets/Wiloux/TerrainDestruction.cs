@@ -7,6 +7,7 @@ public class TerrainDestruction : MonoBehaviour
 {
 
     public Tilemap terrain;
+    public GameObject spr;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +26,13 @@ public class TerrainDestruction : MonoBehaviour
                 if (Mathf.Pow(x, 2) + Mathf.Pow(y, 2) < Mathf.Pow(radius, 2))
                 {
                     Vector3Int tilePos = terrain.WorldToCell(explosionPosition + new Vector3(x, y, 0));
-                    if(terrain.GetTile(tilePos) != null)
+                    if (terrain.GetTile(tilePos) != null)
                     {
                         DestroyTile(tilePos);
+                    }
+                    else
+                    {
+                        Debug.Log(tilePos+" isNull");
                     }
                 }
 
@@ -38,7 +43,7 @@ public class TerrainDestruction : MonoBehaviour
     void DestroyTile(Vector3Int tilePos)
     {
         terrain.SetTile(tilePos, null);
-        
+
     }
 
     // Update is called once per frame
@@ -46,7 +51,10 @@ public class TerrainDestruction : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            DestroyTerrain(Input.mousePosition, 4);
+            Vector3 spawnPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            spawnPos.z = 0;
+            spr.transform.position = spawnPos;
+            DestroyTerrain(spawnPos, 2);
         }
     }
 }
