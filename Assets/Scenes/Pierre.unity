@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 945408072}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,6 +363,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eac491408ce48b478d5ef0acd403cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 70
+  force: 50
+  faceR: 1
 --- !u!212 &1823326830
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -448,4 +451,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 2
