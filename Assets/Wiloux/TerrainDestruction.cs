@@ -30,10 +30,6 @@ public class TerrainDestruction : MonoBehaviour
                     {
                         DestroyTile(tilePos);
                     }
-                    else
-                    {
-                        Debug.Log(tilePos+" isNull");
-                    }
                 }
 
             }
