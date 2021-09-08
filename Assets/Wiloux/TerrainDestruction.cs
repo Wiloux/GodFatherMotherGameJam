@@ -30,8 +30,8 @@ public class TerrainDestruction : MonoBehaviour {
     }
 
     void DestroyTile(Vector3Int tilePos) {
-        if (terrain.GetTile(tilePos).name != "UndestructibleBlock") {
-            if (terrain.GetTile(tilePos).name == "StrongBlock") {
+        if (terrain.GetTile(tilePos).name != "Metal") {
+            if (terrain.GetTile(tilePos).name == "Stone") {
 
                 terrain.SetTile(tilePos, brokenTile);
             } else {
