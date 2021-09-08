@@ -30,6 +30,7 @@ public class Shoot : MonoBehaviour
 
         aimDirection.x = h;
         aimDirection.y = v;
+        aimDirection.Normalize();
 
         Vector2 bulletDirection = (Vector2) transform.position - aimDirection;
         bulletDirection.Normalize();
