@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 public class TerrainDestruction : MonoBehaviour
 {
 
+    public TileBase brokenTile;
+
     public Tilemap terrain;
     public GameObject spr;
     // Start is called before the first frame update
@@ -28,6 +30,7 @@ public class TerrainDestruction : MonoBehaviour
                     Vector3Int tilePos = terrain.WorldToCell(explosionPosition + new Vector3(x, y, 0));
                     if (terrain.GetTile(tilePos) != null)
                     {
+                        Debug.Log(terrain.GetTile(tilePos).name);
                         DestroyTile(tilePos);
                     }
                 }
@@ -38,7 +41,19 @@ public class TerrainDestruction : MonoBehaviour
 
     void DestroyTile(Vector3Int tilePos)
     {
-        terrain.SetTile(tilePos, null);
+
+        if (terrain.GetTile(tilePos).name != "UndestructibleBlock")
+        {
+            if (terrain.GetTile(tilePos).name == "StrongBlock")
+            {
+
+                terrain.SetTile(tilePos, brokenTile);
+            }
+            else
+            {
+                terrain.SetTile(tilePos, null);
+            }
+        }
 
     }
 
