@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         // P1 Start game
         if (playersController[0] != null && ReInput.players.GetPlayer("P1").GetButtonDown("Start game"))
         {
-           // BeginGame();
+            BeginGame();
         }
 
         // Change Portraits
@@ -51,12 +51,12 @@ public class GameManager : MonoBehaviour
         {
             if (playersController[i] != null)
             {
-                Player player = ReInput.players.GetPlayer("P" + (i + 1));
+                Rewired.Player player = ReInput.players.GetPlayer("P" + (i + 1));
                 if (player.GetButtonDown("Leave game"))
                 {
                     RemoveController(i);
-                    multiplayerPanel.transform.GetChild(1).GetChild(i).GetChild(0).gameObject.SetActive(true);
-                    multiplayerPanel.transform.GetChild(1).GetChild(i).GetChild(1).gameObject.SetActive(false);
+                    multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(0).gameObject.SetActive(true);
+                    multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(1).gameObject.SetActive(false);
                 }
                 //else if (player.GetButtonDown("Left"))
                 //{
@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour
                 //}
             }
         }
+
+
 
         // Join game
         Controller controller = null;
@@ -85,11 +87,23 @@ public class GameManager : MonoBehaviour
             {
                 if (playersController[i] != null)
                 {
-                    multiplayerPanel.transform.GetChild(1).GetChild(i).GetChild(0).gameObject.SetActive(false);
-                    multiplayerPanel.transform.GetChild(1).GetChild(i).GetChild(1).gameObject.SetActive(true);
-                  //  multiplayerPanel.ChangePortraitSprite(i, 0);
+                    multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(0).gameObject.SetActive(false);
+                    multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(1).gameObject.SetActive(true);
+                    //  multiplayerPanel.ChangePortraitSprite(i, 0);
                 }
             }
+        }
+    }
+
+    public GameObject playerPrefab;
+
+    void BeginGame()
+    {
+        multiplayerPanel.SetActive(false);
+        for (int i = 0; i < playersController.Length; i++)
+        {
+            GameObject spawnedPlayer = Instantiate(playerPrefab);
+            spawnedPlayer.GetComponent<PlayerController>().playerController = ReInput.players.GetPlayer(i);
         }
     }
 
@@ -105,7 +119,7 @@ public class GameManager : MonoBehaviour
             {
                 playersController[i] = controller;
 
-                Player player = ReInput.players.GetPlayer("P" + (i + 1));
+                Rewired.Player player = ReInput.players.GetPlayer("P" + (i + 1));
                 player.controllers.ClearAllControllers();
                 player.controllers.AddController(controller, true);
 
@@ -142,6 +156,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateMultPanel();
     }
 }
