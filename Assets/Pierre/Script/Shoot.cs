@@ -8,12 +8,11 @@ public class Shoot : MonoBehaviour
     public Rewired.Player playerController;
 
     public Transform firePoint;
-    public Transform aimPoint;
     public GameObject bullet;
 
     public float speed = 20f;
 
-    Vector2 aimDirection;
+    public Vector2 aimDirection;
 
     void Start()
     {
@@ -36,11 +35,14 @@ public class Shoot : MonoBehaviour
         bulletDirection.Normalize();
         //transform.Rotate (v, h, 0);
 
-        
+        //firePoint.transform.rotation = Quaternion.LookRotation(bulletDirection);
+        firePoint.transform.rotation = Quaternion.Euler(bulletDirection.x, 0, bulletDirection.y);
+
+        Debug.Log(bulletDirection);
 
         if (playerController.GetButtonDown("Fire"))
         {
-            GameObject rocket = Instantiate(bullet, firePoint.position, firePoint.rotation);
+            GameObject rocket = Instantiate(bullet, transform.position, firePoint.rotation);
             rocket.GetComponent<Rigidbody2D>().velocity = speed*bulletDirection;
         }
     }
