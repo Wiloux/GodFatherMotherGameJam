@@ -4,6 +4,8 @@ using UnityEngine;
 using ToolsBoxEngine;
 
 public class CameraController : MonoBehaviour {
+    public Transform objectToFollow;
+
     [SerializeField] private Transform start = null, end = null;
     [SerializeField] private float scrollTime = 10f, scrollTimeDecay = 0.1f;
 
@@ -17,6 +19,12 @@ public class CameraController : MonoBehaviour {
     }
 
     private void Start() {
+        if (objectToFollow != null) {
+            engine.SetPosition(objectToFollow.position.To2D());
+            return;
+        }
+
+        if (start == null || end == null) { Debug.LogWarning("start or end not assigned"); return; }
         startPos = start.position.To2D(); endPos = end.position.To2D();
         engine.Position = startPos;
         actualScrollTime = scrollTime;
@@ -24,10 +32,17 @@ public class CameraController : MonoBehaviour {
     }
 
     private void Update() {
-        if (Vector2.Dot(endPos - startPos, engine.Position - endPos) >= 0) {
-            Vector2 temp = endPos; endPos = startPos; startPos = temp;
-            actualScrollTime = actualScrollTime * (1f - scrollTimeDecay);
-            engine.SetPositionIn(endPos, actualScrollTime);
+        if (objectToFollow != null) {
+            engine.SetPosition(objectToFollow.position.To2D());
+            return;
+        }
+
+        if (start != null && end != null) {
+            if (Vector2.Dot(endPos - startPos, engine.Position - endPos) >= 0) {
+                Vector2 temp = endPos; endPos = startPos; startPos = temp;
+                actualScrollTime = actualScrollTime * (1f - scrollTimeDecay);
+                engine.SetPositionIn(endPos, actualScrollTime);
+            }
         }
     }
 }

@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {fileID: 1938947002268029721}
   end: {fileID: 1938947002557128636}
-  scrollTime: 10
+  scrollTime: 3
   scrollTimeDecay: 0.1
 --- !u!4 &1938947002346983716
 Transform:
@@ -274,7 +274,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938947002557128637}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1938947003181708749}
