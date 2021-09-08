@@ -30,20 +30,26 @@ public class Shoot : MonoBehaviour
 
         aimDirection.x = h;
         aimDirection.y = v;
+        aimDirection.Normalize();
 
-        Vector2 bulletDirection = (Vector2) transform.position - aimDirection;
+        Vector2 firePoint2D = new Vector2(firePoint.position.x, firePoint.position.y);
+
+        firePoint.transform.rotation = Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.up, aimDirection)); 
+
+        Vector2 bulletDirection = aimDirection - firePoint2D;
         bulletDirection.Normalize();
         //transform.Rotate (v, h, 0);
 
         //firePoint.transform.rotation = Quaternion.LookRotation(bulletDirection);
-        firePoint.transform.rotation = Quaternion.Euler(bulletDirection.x, 0, bulletDirection.y);
 
-        Debug.Log(bulletDirection);
+        Debug.DrawLine(firePoint2D, firePoint2D + aimDirection, Color.red);
+
 
         if (playerController.GetButtonDown("Fire"))
         {
-            GameObject rocket = Instantiate(bullet, transform.position, firePoint.rotation);
-            rocket.GetComponent<Rigidbody2D>().velocity = speed*bulletDirection;
+            GameObject rocket = Instantiate(bullet, firePoint2D, Quaternion.identity);
+            rocket.GetComponent<Rigidbody2D>().AddForce(speed * bulletDirection, ForceMode2D.Impulse);
+            Debug.DrawRay(rocket.transform.position, speed * bulletDirection, Color.green, 10f);
         }
     }
 
