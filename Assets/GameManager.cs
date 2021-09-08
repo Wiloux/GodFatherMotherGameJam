@@ -102,8 +102,14 @@ public class GameManager : MonoBehaviour
         multiplayerPanel.SetActive(false);
         for (int i = 0; i < playersController.Length; i++)
         {
+            if (playersController[i] == null) { return; }
+
             GameObject spawnedPlayer = Instantiate(playerPrefab);
             spawnedPlayer.GetComponent<PlayerController>().playerController = ReInput.players.GetPlayer(i);
+
+            if (i == 0) {
+                Camera.main.GetComponent<CameraController>().objectToFollow = spawnedPlayer.transform;
+            }
         }
     }
 
