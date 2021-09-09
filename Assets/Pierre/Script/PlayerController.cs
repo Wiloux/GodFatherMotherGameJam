@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movements")]
     //public float speed;
     public float speedMax;
+    public Vector2 externalForces = Vector2.zero;
+    private bool wasMoving = false;
 
     [Header("Acceleration")]
     [SerializeField] private float accelerationDuration;
@@ -46,7 +48,10 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public float groundedRadius;
 
-    private bool wasMoving = false;
+    [Header("Gravity")]
+    public float gravityCooldownDuration;
+    private float gravityCooldown;
+    public bool isUpsideDown;
 
     [Header("Sprite")]
     [SerializeField] private Transform body;
@@ -57,7 +62,8 @@ public class PlayerController : MonoBehaviour
     private bool faceR = true;
     private Rigidbody2D rb2D;
 
-    void Start() {
+    void Start()
+    {
         rb2D = GetComponent<Rigidbody2D>();
     }
 
@@ -65,6 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateGravity();
         UpdateMove();
+        UpdateExternalForces();
         ApplySpeed();
     }
 
@@ -82,207 +89,267 @@ public class PlayerController : MonoBehaviour
             //    //body.flipX = playerController.GetAxis("Horizontal") > 0 ? true : false;
             body.localScale = body.localScale.Override(Mathf.Abs(body.localScale.x) * playerController.GetAxis("Horizontal") > 0 ? 1 : -1, Axis.X);
 
-
-
         float moveHorizontal = playerController.GetAxisRaw("Horizontal");
         moveDirection = new Vector2(moveHorizontal, 0f);
 
-        if (playerController.GetButtonDown("Gravity"))
-        { 
-            gravity *= -1;
-            float yScale = transform.localScale.y * -1;
-            transform.localScale = new Vector3(0.5f, yScale, 1f);
-        }
-
-    }
-
-
-    public void TurnAround()
-    {
-        if (playerController.GetAxis("Horizontal") != 0)
-            //body.flipX = playerController.GetAxis("Horizontal") > 0 ? true : false;
-            body.localScale = body.localScale.Override(Mathf.Abs(body.localScale.x) * playerController.GetAxis("Horizontal") > 0 ? 1 : -1, Axis.X);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        //Gizmos.DrawWireSphere(groundCheck.transform.position, groundedRadius);
-        Gizmos.DrawWireCube(groundCheck.transform.position, groundCheck.localScale);
-    }
-
-    private void UpdateGravity()
-    {
-        grounded = false;
-
-        //Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, GameManager.instance.whatIsGround);
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheck.position, groundCheck.localScale, 0f, GameManager.instance.whatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
+        if (gravityCooldown <= 0f)
         {
-            if (colliders[i].gameObject != gameObject)
+
+            if (playerController.GetButtonDown("Gravity"))
             {
-                grounded = true;
-            }
-        }
 
-        if (!grounded)
-        {
-            velocity += Vector2.down * gravity;
+                isUpsideDown = !isUpsideDown;
+                gravity *= -1;
+                float yScale = transform.localScale.y * -1;
+                transform.localScale = new Vector3(0.5f, yScale, 1f);
+                gravityCooldown = gravityCooldownDuration;
+            }
+
+
         }
         else
         {
-            if (!wasGrounded)
+
+            gravityCooldown -= Time.deltaTime;
+        }
+    }
+
+
+        public void TurnAround()
+        {
+            if (playerController.GetAxis("Horizontal") != 0)
+                //body.flipX = playerController.GetAxis("Horizontal") > 0 ? true : false;
+                body.localScale = body.localScale.Override(Mathf.Abs(body.localScale.x) * playerController.GetAxis("Horizontal") > 0 ? 1 : -1, Axis.X);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            //Gizmos.DrawWireSphere(groundCheck.transform.position, groundedRadius);
+            Gizmos.DrawWireCube(groundCheck.transform.position, groundCheck.localScale);
+        }
+
+        private void UpdateGravity()
+        {
+            grounded = false;
+
+            //Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, GameManager.instance.whatIsGround);
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheck.position, groundCheck.localScale, 0f, GameManager.instance.whatIsGround);
+            for (int i = 0; i < colliders.Length; i++)
             {
-                characterAnimator.SetTrigger("GroundContact");
+                if (colliders[i].gameObject != gameObject)
+                {
+                    grounded = true;
+                }
+            }
+
+            if (!grounded)
+            {
+                velocity += Vector2.down * gravity;
+            }
+            else
+            {
+                if (!wasGrounded)
+                {
+                    characterAnimator.SetTrigger("GroundContact");
+                    velocity.y = 0f;
+                }
+
+                if (jumping)
+                {
+                    characterAnimator.ResetTrigger("GroundContact");
+                    characterAnimator.SetTrigger("Jump");
+                    if (!isUpsideDown)
+                        velocity.y += jumpForce;
+                    else
+                        velocity.y -= jumpForce;
+                }
+            }
+
+            jumping = false;
+        }
+
+        private void UpdateMove()
+        {
+            bool isMoving = moveDirection != Vector2.zero;
+
+            if (isMoving)
+            {
+                if (velocity != Vector2.zero)
+                {
+                    if (Vector3.Dot(previousMoveDirection, moveDirection) < 0f)
+                    {
+                        StartTurnAround();
+                        characterAnimator.SetBool("TurnAround", true);
+                    }
+                }
+                else
+                {
+                    StartAcceleration();
+                }
+
+                if (isTurningAround)
+                {
+                    velocity = ApplyTurnAround().Override(velocity.y, Axis.Y);
+                }
+                else
+                {
+                    velocity = ApplyAcceleration().Override(velocity.y, Axis.Y);
+                }
+
+                previousMoveDirection = moveDirection;
+            }
+            else if (grounded)
+            {
+                if (wasMoving)
+                {
+                    StartFrictions();
+                }
+                velocity = ApplyFrictions().Override(velocity.y, Axis.Y);
+            }
+
+            wasMoving = isMoving;
+        }
+
+        private void UpdateExternalForces()
+        {
+            if (grounded && !wasGrounded) {
+                externalForces.y = 0f;
+            }
+
+            if (externalForces.y * velocity.y < 0) {
+                externalForces.y += velocity.y;
                 velocity.y = 0f;
             }
 
-            if (jumping)
-            {
-                characterAnimator.ResetTrigger("GroundContact");
-                characterAnimator.SetTrigger("Jump");
-                velocity.y += jumpForce;
+            //if (externalForces.x * velocity.x < 0) {
+            //    if (Mathf.Abs(externalForces.x + velocity.x) > 0) {
+            //        externalForces.x += velocity.x;
+            //    } else {
+            //        externalForces.x = 0f;
+            //    }
+            //}
+
+            if (externalForces.x > speedMax) {
+                externalForces.x = ApplyFrictions(externalForces).x;
+            }
+
+            if (grounded) {
+                externalForces.x = ApplyFrictions(externalForces).x;
             }
         }
 
-        wasGrounded = grounded;
-        jumping = false;
-    }
-
-    private void UpdateMove()
-    {
-        bool isMoving = moveDirection != Vector2.zero;
-
-        if (isMoving)
+        private void StartAcceleration()
         {
-            if (velocity != Vector2.zero)
+            float currentSpeed = Mathf.Abs(velocity.x);
+            float accelerationTimerRatio = currentSpeed / speedMax;
+            accelerationTimer = Mathf.Lerp(0f, accelerationDuration, accelerationTimerRatio);
+        }
+
+        private Vector2 ApplyAcceleration()
+        {
+            Vector2 velocity = Vector2.zero;
+            accelerationTimer += Time.deltaTime;
+            if (accelerationTimer < accelerationDuration)
             {
-                if (Vector3.Dot(previousMoveDirection, moveDirection) < 0f)
-                {
-                    StartTurnAround();
-                    characterAnimator.SetBool("TurnAround", true);
-                }
+                float ratio = accelerationTimer / accelerationDuration;
+                ratio = accelerationCurve.Evaluate(ratio);
+                float speed = Mathf.Lerp(0f, speedMax, ratio);
+                return moveDirection * speed;
             }
             else
             {
-                StartAcceleration();
+                return moveDirection * speedMax;
             }
+        }
 
-            if (isTurningAround)
+        private void StartFrictions()
+        {
+            float currentSpeed = Mathf.Abs(velocity.x);
+            float frictionTimerRatio = Mathf.InverseLerp(0f, speedMax, currentSpeed);
+            frictionsTimer = Mathf.Lerp(frictionsDuration, 0f, frictionTimerRatio);
+        }
+
+        private Vector2 ApplyFrictions()
+        {
+            frictionsTimer += Time.deltaTime;
+            if (frictionsTimer < frictionsDuration)
             {
-                velocity = ApplyTurnAround().Override(velocity.y, Axis.Y);
+                //Calculate Frictions according to timer and curve
+                float ratio = frictionsTimer / frictionsDuration;
+                ratio = frictonsCurve.Evaluate(ratio);
+                float speed = Mathf.Lerp(speedMax, 0f, ratio);
+                return new Vector2(velocity.x / speedMax * speed, 0f);
             }
             else
             {
-                velocity = ApplyAcceleration().Override(velocity.y, Axis.Y);
+                //Reset speed
+                previousMoveDirection = Vector2.zero;
+                return Vector2.zero;
             }
-
-            previousMoveDirection = moveDirection;
         }
-        else if (grounded)
+
+        private Vector2 ApplyFrictions(Vector2 velocity)
         {
-            if (wasMoving)
+            float currentSpeed = Mathf.Abs(velocity.x);
+            float frictionTimerRatio = Mathf.Clamp01(Mathf.InverseLerp(0f, speedMax, currentSpeed));
+            float frictionsTimer = Mathf.Lerp(frictionsDuration, 0f, frictionTimerRatio);
+            frictionsTimer += Time.deltaTime;
+            if (frictionsTimer < frictionsDuration)
             {
-                StartFrictions();
+                float ratio = frictionsTimer / frictionsDuration;
+                ratio = frictonsCurve.Evaluate(ratio);
+                float speed = Mathf.Lerp(speedMax, 0f, ratio);
+                return new Vector2(currentSpeed / speedMax * speed * Mathf.Sign(velocity.x), 0f);
             }
-            velocity = ApplyFrictions().Override(velocity.y, Axis.Y);
+            else
+            {
+                return Vector2.zero;
+            }
         }
 
-        wasMoving = isMoving;
-    }
+        //public void KnockBack(Vector2 direction) {
+        //    Debug.Log(direction);
+        //    velocity += direction * knockbackForce;
+        //}
 
-    private void StartAcceleration()
-    {
-        float currentSpeed = Mathf.Abs(velocity.x);
-        float accelerationTimerRatio = currentSpeed / speedMax;
-        accelerationTimer = Mathf.Lerp(0f, accelerationDuration, accelerationTimerRatio);
-    }
-
-    private Vector2 ApplyAcceleration()
-    {
-        Vector2 velocity = Vector2.zero;
-        accelerationTimer += Time.deltaTime;
-        if (accelerationTimer < accelerationDuration)
+        private void StartTurnAround()
         {
-            float ratio = accelerationTimer / accelerationDuration;
-            ratio = accelerationCurve.Evaluate(ratio);
-            float speed = Mathf.Lerp(0f, speedMax, ratio);
-            return moveDirection * speed;
+            isTurningAround = true;
+            turnAroundTimer = 0f;
+            turnAroundDuration = Mathf.Lerp(0f, turnAroundMaxDuration, Mathf.Abs(velocity.x) / speedMax);
+            turnAroundStartSpeed = velocity.x;
         }
-        else
+
+        private Vector2 ApplyTurnAround()
         {
-            return moveDirection * speedMax;
+            turnAroundTimer += Time.deltaTime;
+            if (turnAroundTimer < turnAroundDuration)
+            {
+                float ratio = turnAroundTimer / turnAroundDuration;
+                ratio = turnAroundCurve.Evaluate(ratio);
+                float speed = Mathf.Lerp(turnAroundStartSpeed, 0f, ratio);
+                return velocity.normalized * Mathf.Abs(speed);
+            }
+            else
+            {
+                characterAnimator.SetBool("TurnAround", false);
+                accelerationTimer = 0f;
+                isTurningAround = false;
+                return Vector3.zero;
+            }
         }
-    }
 
-    private void StartFrictions()
-    {
-        float currentSpeed = Mathf.Abs(velocity.x);
-        float frictionTimerRatio = Mathf.InverseLerp(0f, speedMax, currentSpeed);
-        frictionsTimer = Mathf.Lerp(frictionsDuration, 0f, frictionTimerRatio);
-    }
-
-    private Vector2 ApplyFrictions()
-    {
-        frictionsTimer += Time.deltaTime;
-        if (frictionsTimer < frictionsDuration)
+        private void ApplySpeed()
         {
-            //Calculate Frictions according to timer and curve
-            float ratio = frictionsTimer / frictionsDuration;
-            ratio = frictonsCurve.Evaluate(ratio);
-            float speed = Mathf.Lerp(speedMax, 0f, ratio);
-            return new Vector2(velocity.x / speedMax * speed, 0f);
+            rb2D.velocity = velocity + externalForces;
+
+            wasGrounded = grounded;
         }
-        else
+
+        public void AddExternalForce(Vector2 force)
         {
-            //Reset speed
-            previousMoveDirection = Vector2.zero;
-            return Vector2.zero;
+            Debug.DrawLine(transform.position, transform.position + force.To3D(), Color.green, 5f);
+            externalForces += force;
+            velocity = Vector2.zero;
         }
-    }
-
-    public void KnockBack(Vector2 direction)
-    {
-        Debug.Log(direction);
-        velocity += direction * knockbackForce;
-    }
-
-    private void StartTurnAround()
-    {
-        isTurningAround = true;
-        turnAroundTimer = 0f;
-        turnAroundDuration = Mathf.Lerp(0f, turnAroundMaxDuration, Mathf.Abs(velocity.x) / speedMax);
-        turnAroundStartSpeed = velocity.x;
-    }
-
-    private Vector2 ApplyTurnAround()
-    {
-        turnAroundTimer += Time.deltaTime;
-        if (turnAroundTimer < turnAroundDuration)
-        {
-            float ratio = turnAroundTimer / turnAroundDuration;
-            ratio = turnAroundCurve.Evaluate(ratio);
-            float speed = Mathf.Lerp(turnAroundStartSpeed, 0f, ratio);
-            return velocity.normalized * Mathf.Abs(speed);
-        }
-        else
-        {
-            characterAnimator.SetBool("TurnAround", false);
-            accelerationTimer = 0f;
-            isTurningAround = false;
-            return Vector3.zero;
-        }
-    }
-
-    private void ApplySpeed()
-    {
-        rb2D.velocity = velocity;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("death"))
-        {
-            //Mettre effet de la mort ici
-        }
-    }
-}
+    } 
