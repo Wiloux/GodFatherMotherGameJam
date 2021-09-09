@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
             if (playerController.GetButtonDown("Gravity"))
             {
 
+                GetComponent<Shoot>().aimDirection *= -1;
+                GetComponent<Shoot>().UpdateAim();
                 isUpsideDown = !isUpsideDown;
                 gravity *= -1;
                 float yScale = transform.localScale.y * -1;
