@@ -140,9 +140,14 @@ public class GameManager : MonoBehaviour
             GameObject spawnedPlayer = Instantiate(playerPrefab);
             if (i != 0)
             {
-                spawnedPlayer.transform.Find("CharacterRoot/character2").gameObject.SetActive(true);
+                spawnedPlayer.GetComponent<PlayerController>().playerID = 1;
                 spawnedPlayer.transform.Find("RocketRotate/RocketRoot/RocketCharacter1/CharacterArm").GetComponent<SpriteRenderer>().sprite = player2ArmVisuals;
                 spawnedPlayer.transform.Find("CharacterRoot/character1").gameObject.SetActive(false);
+            }
+            else
+            {
+                spawnedPlayer.transform.Find("CharacterRoot/character2").gameObject.SetActive(false);
+
             }
             spawnedPlayer.GetComponent<PlayerController>().playerController = ReInput.players.GetPlayer(i);
         }
