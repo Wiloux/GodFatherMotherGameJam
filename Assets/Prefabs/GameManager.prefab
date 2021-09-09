@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3277290836707160920}
   - component: {fileID: 2259101853311099319}
+  - component: {fileID: 5745615174332987783}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -46,6 +47,21 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &5745615174332987783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3294422688377942829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b688228a091901b46b51bf3a0bdbdde1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenTile: {fileID: 11400000, guid: 77720b389e6bb5f4c9a3f25c90af0ceb, type: 2}
+  radius: 1
+  terrain: {fileID: 3805169256694433000}
 --- !u!1 &6927345654839178763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,6 +1784,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 63
+  gridObject: {fileID: 0}
   player2ArmVisuals: {fileID: -7386808196176430237, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
   playerPrefab: {fileID: 8381559994800279827, guid: ee94a854c8dd3db43a245f3cdc8def0f, type: 3}
 --- !u!1 &6927345656306520419
@@ -1927,17 +1944,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4032032925186299683, guid: 264b065e88034814e9d76c10adce285c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4032032925186299695, guid: 264b065e88034814e9d76c10adce285c, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4032032925186299692, guid: 264b065e88034814e9d76c10adce285c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 264b065e88034814e9d76c10adce285c, type: 3}
 --- !u!4 &3805169256694433002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4032032925186299682, guid: 264b065e88034814e9d76c10adce285c, type: 3}
+  m_PrefabInstance: {fileID: 232504730464211912}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1839735485 &3805169256694433000 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 4032032925186299680, guid: 264b065e88034814e9d76c10adce285c, type: 3}
   m_PrefabInstance: {fileID: 232504730464211912}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4443944627000779385
@@ -1993,7 +2016,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4320041162143417586, guid: ed8ab1c46c6e9654ea4ce702db658d29, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4320041162143417586, guid: ed8ab1c46c6e9654ea4ce702db658d29, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[0].y
@@ -12181,9 +12204,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4320041162143417591, guid: ed8ab1c46c6e9654ea4ce702db658d29, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4320041162143417585, guid: ed8ab1c46c6e9654ea4ce702db658d29, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ed8ab1c46c6e9654ea4ce702db658d29, type: 3}
 --- !u!4 &459312855242303113 stripped
 Transform:
@@ -12203,7 +12227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5092286366563259971, guid: 2bd95462cfe36804d8ae686ad1c3ad94, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5092286366563259972, guid: 2bd95462cfe36804d8ae686ad1c3ad94, type: 3}
       propertyPath: m_RootOrder
@@ -12251,7 +12275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5092286366563259974, guid: 2bd95462cfe36804d8ae686ad1c3ad94, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5092286366563259974, guid: 2bd95462cfe36804d8ae686ad1c3ad94, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[1].Array.data[1].x
@@ -12577,7 +12601,8 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[295].second.m_TileSpriteIndex
       value: 30
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5092286366563259973, guid: 2bd95462cfe36804d8ae686ad1c3ad94, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2bd95462cfe36804d8ae686ad1c3ad94, type: 3}
 --- !u!4 &3304594163317640740 stripped
 Transform:
