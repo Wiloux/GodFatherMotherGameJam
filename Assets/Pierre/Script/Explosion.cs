@@ -5,6 +5,7 @@ using UnityEngine;
 public class Explosion : MonoBehaviour {
     public float radius = 2f;
     public float knockBackForce = 20f;
+    public float oblivionFactor = 1.3f;
 
     void Start() {
         Boum();
@@ -56,7 +57,7 @@ public class Explosion : MonoBehaviour {
     public void ToOblivion(PlayerController player) {
         Vector2 knockBack = player.transform.position - transform.position;
         Vector2 knockbackDir = new Vector2(Mathf.Sign(knockBack.x), 0.2f * Mathf.Sign(knockBack.y)).normalized;
-        player.AddExternalForce(knockbackDir * knockBackForce * 2f);
+        player.AddExternalForce(knockbackDir * knockBackForce * oblivionFactor);
     }
 
     private void OnDrawGizmosSelected() {
