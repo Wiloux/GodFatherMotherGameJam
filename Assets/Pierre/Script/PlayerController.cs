@@ -34,8 +34,10 @@ public class PlayerController : MonoBehaviour {
     private Vector2 moveDirection = Vector2.zero;
     private Vector2 previousMoveDirection = Vector2.zero;
     private Vector2 velocity;
-    private bool grounded = false;
+    public bool grounded = false;
     private bool wasGrounded = false;
+
+    public float knockbackForce;
 
     [Header("Air")]
     public int jumpForce;
@@ -83,7 +85,7 @@ public class PlayerController : MonoBehaviour {
         grounded = false;
 
         //Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, GameManager.instance.whatIsGround);
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheck.position, groundCheck.localScale, GameManager.instance.whatIsGround);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheck.position, groundCheck.localScale, 0f, GameManager.instance.whatIsGround);
         for (int i = 0; i < colliders.Length; i++) {
             if (colliders[i].gameObject != gameObject) {
                 grounded = true;
@@ -173,6 +175,12 @@ public class PlayerController : MonoBehaviour {
             previousMoveDirection = Vector2.zero;
             return Vector2.zero;
         }
+    }
+
+    public void KnockBack(Vector2 direction)
+    {
+        Debug.Log(direction);
+        velocity += direction * knockbackForce;
     }
 
     private void StartTurnAround() {

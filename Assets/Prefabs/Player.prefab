@@ -167,7 +167,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  gravity: 1
+  gravity: 0.5
   frictionsDuration: 0.3
   frictonsCurve:
     serializedVersion: 2
@@ -227,7 +227,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  jumpForce: 15
+  grounded: 0
+  knockbackForce: 15
+  jumpForce: 10
   groundCheck: {fileID: 3658685146288184575}
   groundedRadius: 0.2
   body: {fileID: 4609164098020987767}
@@ -293,7 +295,6 @@ MonoBehaviour:
   firePoint: {fileID: 40748591659811717}
   bullet: {fileID: 2983579928658668156, guid: 30edc504418a73f41b1d9ede96f9e366, type: 3}
   speed: 20
-  aimDirection: {x: 0, y: 0}
 --- !u!1001 &9140949900542789183
 PrefabInstance:
   m_ObjectHideFlags: 0
