@@ -827,7 +827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMax: 10
-  accelerationDuration: 0.5
+  accelerationDuration: 0.3
   accelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -853,7 +853,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   gravity: 1
-  frictionsDuration: 0.3
+  frictionsDuration: 0.5
   frictonsCurve:
     serializedVersion: 2
     m_Curve:
@@ -913,7 +913,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   grounded: 0
-  knockbackForce: 20
+  knockbackForce: 10
   jumpForce: 15
   groundCheck: {fileID: 2483531485824126599}
   groundedRadius: 0.2
