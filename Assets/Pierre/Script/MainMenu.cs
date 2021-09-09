@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public void BouttonJouer()
     {
-        SceneManager.LoadScene("SceneFinale");
+        SceneManager.LoadScene("SceneFinal");
     }
 
     public void BouttonCredits()
