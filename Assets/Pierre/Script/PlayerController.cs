@@ -57,8 +57,7 @@ public class PlayerController : MonoBehaviour
     private bool faceR = true;
     private Rigidbody2D rb2D;
 
-    void Start()
-    {
+    void Start() {
         rb2D = GetComponent<Rigidbody2D>();
     }
 

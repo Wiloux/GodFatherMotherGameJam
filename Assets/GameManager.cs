@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject multiplayerPanel;
     public TerrainDestruction terrainDestruction;
+    public Camera mainCamera;
 
     [Header("Rewired")]
     private List<int> assignedJoysticks = null;
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour {
 
         assignedJoysticks = new List<int>();
         ReInput.ControllerConnectedEvent += OnControllerConnected;
+
+        if (mainCamera == null) { mainCamera = Camera.main; }
     }
 
     private void ShowMultPanel(bool state = true) {
@@ -108,6 +111,12 @@ public class GameManager : MonoBehaviour {
                 Rewired.Player player = ReInput.players.GetPlayer("P" + (i + 1));
                 player.controllers.ClearAllControllers();
                 player.controllers.AddController(controller, true);
+
+                if (player.controllers.hasKeyboard) {
+                    player.controllers.hasMouse = true;
+                } else {
+                    player.controllers.hasMouse = false;
+                }
 
                 return true;
             }
