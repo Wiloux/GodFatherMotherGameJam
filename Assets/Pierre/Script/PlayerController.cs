@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour {
     private bool grounded = false;
     private bool wasGrounded = false;
 
+    public float knockbackForce;
+
     [Header("Air")]
     public int jumpForce;
     private bool jumping;
@@ -173,6 +175,11 @@ public class PlayerController : MonoBehaviour {
             previousMoveDirection = Vector2.zero;
             return Vector2.zero;
         }
+    }
+
+    public void KnockBack(Vector2 direction)
+    {
+        rb2D.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
     }
 
     private void StartTurnAround() {
