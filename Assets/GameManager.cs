@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
     }
 
     public GameObject playerPrefab;
+    public List<Transform> playerSpawns = new List<Transform>();
 
     void BeginGame()
     {
@@ -128,6 +129,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        playerSpawns.Add(gridObject.transform.GetChild(mapID).Find("P1Spawn"));
+        playerSpawns.Add(gridObject.transform.GetChild(mapID).Find("P2Spawn"));
         terrainDestruction.terrain = gridObject.transform.GetChild(mapID).GetComponent<Tilemap>();
 
 
@@ -140,9 +143,16 @@ public class GameManager : MonoBehaviour
             GameObject spawnedPlayer = Instantiate(playerPrefab);
             if (i != 0)
             {
-                spawnedPlayer.transform.Find("CharacterRoot/character2").gameObject.SetActive(true);
+                spawnedPlayer.transform.position = playerSpawns[1].position;
+                spawnedPlayer.GetComponent<PlayerController>().playerID = 1;
                 spawnedPlayer.transform.Find("RocketRotate/RocketRoot/RocketCharacter1/CharacterArm").GetComponent<SpriteRenderer>().sprite = player2ArmVisuals;
                 spawnedPlayer.transform.Find("CharacterRoot/character1").gameObject.SetActive(false);
+            }
+            else
+            {
+                spawnedPlayer.transform.position = playerSpawns[0].position;
+                spawnedPlayer.transform.Find("CharacterRoot/character2").gameObject.SetActive(false);
+
             }
             spawnedPlayer.GetComponent<PlayerController>().playerController = ReInput.players.GetPlayer(i);
         }

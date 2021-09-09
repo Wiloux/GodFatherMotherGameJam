@@ -63,10 +63,19 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb2D;
     private Animation anim;
 
+    public int playerID;
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
-        anim = gameObject.GetComponent<Animation>();
+        if (playerID != 1)
+        {
+            characterAnimator = transform.Find("CharacterRoot/character1").GetComponent<Animator>();
+        }
+        else
+        {
+            characterAnimator = transform.Find("CharacterRoot/character2").GetComponent<Animator>();
+
+        }
     }
 
     private void FixedUpdate()
