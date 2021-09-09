@@ -36,6 +36,7 @@ public class Shoot : MonoBehaviour {
 
         if (playerController.GetButtonDown("Fire")) {
             GameObject rocket = Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
+            rocket.GetComponent<Missile>().creator = GetComponent<PlayerController>();
             rocket.GetComponent<Rigidbody2D>().AddForce(speed * bulletDirection, ForceMode2D.Impulse);
             //Debug.DrawRay(rocket.transform.position, speed * bulletDirection, Color.green, 10f);
         }
