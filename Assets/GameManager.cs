@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour {
     [Header("Game")]
     public LayerMask whatIsGround;
 
+    bool gameStarted;
+
     private void Awake() {
         instance = this;
 
@@ -92,6 +94,7 @@ public class GameManager : MonoBehaviour {
     public GameObject playerPrefab;
 
     void BeginGame() {
+        gameStarted = true;
         multiplayerPanel.SetActive(false);
         for (int i = 0; i < playersController.Length; i++) {
             if (playersController[i] == null) { return; }
@@ -146,6 +149,7 @@ public class GameManager : MonoBehaviour {
     }
     // Update is called once per frame
     void Update() {
+        if (!gameStarted)
         UpdateMultPanel();
     }
 }
