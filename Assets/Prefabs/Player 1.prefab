@@ -697,7 +697,7 @@ Animator:
   m_GameObject: {fileID: 5435773040337656505}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0ae118dd09afd3a4da8b151889be44a8, type: 2}
+  m_Controller: {fileID: 9100000, guid: e5fc0ffb46192fc45b9452614714d53c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -899,6 +899,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  grounded: 0
+  knockbackForce: 0
   jumpForce: 15
   groundCheck: {fileID: 2483531485824126599}
   groundedRadius: 0.2
@@ -1448,7 +1450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 378114808310713030, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.00000011920929
+      value: 0.009999871
       objectReference: {fileID: 0}
     - target: {fileID: 378114808310713030, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
       propertyPath: m_Bounds.m_Center.y

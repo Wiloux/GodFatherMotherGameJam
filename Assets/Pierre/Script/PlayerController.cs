@@ -49,11 +49,14 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Sprite")]
     [SerializeField] private Transform body;
+    [SerializeField] private Animator characterAnimator;
+    [SerializeField] private Animator rocketAnimator;
 
     private bool faceR = true;
     private Rigidbody2D rb2D;
 
     void Start() {
+        Time.timeScale = 0.2f;
         rb2D = GetComponent<Rigidbody2D>();
     }
 
@@ -64,6 +67,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
+        characterAnimator.SetFloat("Speed", Mathf.Abs(velocity.x));
+
         if (playerController.GetButtonDown("Jump") && grounded) {
             jumping = true;
         }
@@ -82,25 +87,20 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void UpdateGravity() {
-        grounded = false;
-
-        //Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, GameManager.instance.whatIsGround);
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheck.position, groundCheck.localScale, 0f, GameManager.instance.whatIsGround);
-        for (int i = 0; i < colliders.Length; i++) {
-            if (colliders[i].gameObject != gameObject) {
-                grounded = true;
-            }
-        }
+        grounded = GroundCheck();
 
         if (!grounded) {
             velocity += Vector2.down * gravity;
         } else {
             if (!wasGrounded) {
                 velocity.y = 0f;
+                characterAnimator.SetTrigger("GroundContact");
             }
 
             if (jumping) {
                 velocity.y += jumpForce;
+                characterAnimator.ResetTrigger("GroundContact");
+                characterAnimator.SetTrigger("Jump");
             }
         }
 
@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour {
             if (velocity != Vector2.zero) {
                 if (Vector3.Dot(previousMoveDirection, moveDirection) < 0f) {
                     StartTurnAround();
+                    characterAnimator.SetBool("TurnAround", true);
                 }
             } else {
                 StartAcceleration();
@@ -200,11 +201,22 @@ public class PlayerController : MonoBehaviour {
         } else {
             accelerationTimer = 0f;
             isTurningAround = false;
+            characterAnimator.SetBool("TurnAround", false);
             return Vector3.zero;
         }
     }
 
     private void ApplySpeed() {
         rb2D.velocity = velocity;
+    }
+
+    private bool GroundCheck() {
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheck.position, groundCheck.localScale, 0f, GameManager.instance.whatIsGround);
+        for (int i = 0; i < colliders.Length; i++) {
+            if (colliders[i].gameObject != gameObject) {
+                return true;
+            }
+        }
+        return false;
     }
 }
