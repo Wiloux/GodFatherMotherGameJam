@@ -3,40 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour {
-    bool firstFrame = true;
+    public float radius = 2f;
+    public float knockBackForce = 20f;
+
     void Start() {
+        KnockPlayers();
         Destroy(gameObject, 2f);
-        StartCoroutine(DisableCollision());
+        //StartCoroutine(DisableCollision());
     }
 
-    private void Update() {
+    //private void Update() {
 
-    }
+    //}
 
-    IEnumerator DisableCollision() {
-        yield return new WaitForSecondsRealtime(0.1f);
-        firstFrame = false;
-    }
+    //IEnumerator DisableCollision() {
+    //    yield return new WaitForSecondsRealtime(0.1f);
+    //    firstFrame = false;
+    //}
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (firstFrame) {
-            if (collision.GetComponent<PlayerController>()) {
-                PlayerController player = collision.GetComponent<PlayerController>();
-                Vector2 knockbackDir = (player.transform.position - transform.position).normalized * 20f;
-                Debug.DrawLine(transform.position, (Vector3)knockbackDir + transform.position, Color.yellow);
+    //private void OnTriggerEnter2D(Collider2D collision) {
+    //    if (firstFrame) {
+    //        if (collision.GetComponent<PlayerController>()) {
+    //            PlayerController player = collision.GetComponent<PlayerController>();
+    //            Vector2 knockbackDir = (player.transform.position - transform.position).normalized * 20f;
+    //            Debug.DrawLine(transform.position, (Vector3)knockbackDir + transform.position, Color.yellow);
+    //            //player.KnockBack(knockbackDir.normalized);
+    //            player.AddExternalForce(knockbackDir);
+    //        }
+    //    }
+    //}
+
+    private void KnockPlayers() {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+
+        for (int i = 0; i < colliders.Length; i++) {
+            if (colliders[i].gameObject.CompareTag("Player")) {
+                PlayerController player = colliders[i].gameObject.GetComponent<PlayerController>();
+                Vector2 knockBack = player.transform.position - transform.position;
+                Vector2 knockbackDir = (player.transform.position - transform.position).normalized;
+                float knockBackMag = knockBack.sqrMagnitude;
+                float force = Mathf.InverseLerp(radius * radius, 0f, knockBackMag);
+                Debug.Log(force);
+                //Debug.DrawLine(transform.position, (Vector3)knockbackDir * knockBackMag + transform.position, Color.yellow);
                 //player.KnockBack(knockbackDir.normalized);
-                player.AddExternalForce(knockbackDir);
+                player.AddExternalForce(knockbackDir * force * knockBackForce);
             }
         }
     }
 
-    //private void KnockPlayers() {
-    //    if (collision.GetComponent<PlayerController>()) {
-    //        PlayerController player = collision.GetComponent<PlayerController>();
-    //        Vector2 knockbackDir = (player.transform.position - transform.position).normalized * 20f;
-    //        Debug.DrawLine(transform.position, (Vector3)knockbackDir + transform.position, Color.yellow);
-    //        //player.KnockBack(knockbackDir.normalized);
-    //        player.AddExternalForce(knockbackDir);
-    //    }
-    //}
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
 }

@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 2
+  knockBackRadius: 4
   explosion: {fileID: 5717775414975354252, guid: 27fc19eec0c2a5349899d325cdb8a545, type: 3}
   creator: {fileID: 0}
 --- !u!50 &5700105349731872615

@@ -4,7 +4,8 @@ using UnityEngine;
 using ToolsBoxEngine;
 
 public class Missile : MonoBehaviour {
-    [SerializeField] private float radius;
+    [SerializeField] private float radius = 2f;
+    [SerializeField] private float knockBackRadius = 4f;
     public GameObject explosion;
     public PlayerController creator;
 
@@ -18,7 +19,8 @@ public class Missile : MonoBehaviour {
         //if (collision.gameObject.name.Equals("Tilemap")) {
         if (GameManager.instance.whatIsGround.Contains(collision.gameObject.layer) && collision.GetComponent<PlayerController>() != creator) {
             GameManager.instance.terrainDestruction.DestroyTerrain(transform.position, radius);
-            Instantiate(explosion, transform.position, Quaternion.identity);
+            Explosion lastExplosion = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<Explosion>();
+            lastExplosion.radius = knockBackRadius;
             Destroy(gameObject);
         }
     }
