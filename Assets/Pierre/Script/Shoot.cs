@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class Shoot : MonoBehaviour
-{
+public class Shoot : MonoBehaviour {
     public Rewired.Player playerController;
 
     public Transform firePoint;
@@ -12,44 +11,33 @@ public class Shoot : MonoBehaviour
 
     public float speed = 20f;
 
-    public Vector2 aimDirection;
+    private Vector2 aimDirection = Vector2.up;
+    private Vector2 bulletDirection = Vector2.up;
 
-    void Start()
-    {
+    void Start() {
         playerController = GetComponent<PlayerController>().playerController;
 
-        aimDirection = new Vector2 (0f, 0f);
+        aimDirection = new Vector2(0f, 0f);
     }
 
+    void Update() {
+        float horizontal = playerController.GetAxis("AimHorizontal");
+        float vertical = playerController.GetAxis("AimVertical");
 
-    void Update()
-    {
-        
-        float v = playerController.GetAxis("AimVertical");
-        float h = playerController.GetAxis("AimHorizontal");
+        if (vertical != 0f || horizontal != 0f) {
+            aimDirection.Set(horizontal, vertical);
+            aimDirection.Normalize();
 
-        aimDirection.x = h;
-        aimDirection.y = v;
-        aimDirection.Normalize();
+            firePoint.transform.rotation = Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.up, aimDirection));
 
-        Vector2 firePoint2D = new Vector2(firePoint.position.x, firePoint.position.y);
+            bulletDirection = firePoint.transform.rotation * Vector2.up;
+            bulletDirection.Normalize();
+        }
 
-        firePoint.transform.rotation = Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.up, aimDirection)); 
-
-        Vector2 bulletDirection = aimDirection - firePoint2D;
-        bulletDirection.Normalize();
-        //transform.Rotate (v, h, 0);
-
-        //firePoint.transform.rotation = Quaternion.LookRotation(bulletDirection);
-
-        Debug.DrawLine(firePoint2D, firePoint2D + aimDirection, Color.red);
-
-
-        if (playerController.GetButtonDown("Fire"))
-        {
-            GameObject rocket = Instantiate(bullet, firePoint2D, Quaternion.identity);
+        if (playerController.GetButtonDown("Fire")) {
+            GameObject rocket = Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
             rocket.GetComponent<Rigidbody2D>().AddForce(speed * bulletDirection, ForceMode2D.Impulse);
-            Debug.DrawRay(rocket.transform.position, speed * bulletDirection, Color.green, 10f);
+            //Debug.DrawRay(rocket.transform.position, speed * bulletDirection, Color.green, 10f);
         }
     }
 

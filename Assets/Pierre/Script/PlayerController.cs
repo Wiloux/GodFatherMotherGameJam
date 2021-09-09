@@ -42,17 +42,16 @@ public class PlayerController : MonoBehaviour {
     private bool jumping;
     public Transform groundCheck;
     public float groundedRadius;
-    public LayerMask whatIsGround;
 
     private bool wasMoving = false;
 
-    private SpriteRenderer SpriteR;
+    [Header("Sprite")]
+    [SerializeField] private Transform body;
 
     private bool faceR = true;
     private Rigidbody2D rb2D;
 
     void Start() {
-        SpriteR = GetComponent<SpriteRenderer>();
         rb2D = GetComponent<Rigidbody2D>();
     }
 
@@ -68,20 +67,23 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (playerController.GetAxis("Horizontal") != 0)
-            SpriteR.flipX = playerController.GetAxis("Horizontal") > 0 ? true : false;
+            //body.flipX = playerController.GetAxis("Horizontal") > 0 ? true : false;
+            body.localScale = body.localScale.Override(Mathf.Abs(body.localScale.x) * playerController.GetAxis("Horizontal") > 0 ? 1 : -1, Axis.X);
 
         float moveHorizontal = playerController.GetAxisRaw("Horizontal");
         moveDirection = new Vector2(moveHorizontal, 0f);
     }
 
     private void OnDrawGizmosSelected() {
-        Gizmos.DrawWireSphere(groundCheck.transform.position, groundedRadius);
+        //Gizmos.DrawWireSphere(groundCheck.transform.position, groundedRadius);
+        Gizmos.DrawWireCube(groundCheck.transform.position, groundCheck.localScale);
     }
 
     private void UpdateGravity() {
         grounded = false;
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
+        //Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, GameManager.instance.whatIsGround);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheck.position, groundCheck.localScale, GameManager.instance.whatIsGround);
         for (int i = 0; i < colliders.Length; i++) {
             if (colliders[i].gameObject != gameObject) {
                 grounded = true;
