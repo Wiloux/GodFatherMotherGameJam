@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour {
 
     [Header("Sprite")]
     [SerializeField] private Transform body;
+    public GameObject sprite;
 
     private bool faceR = true;
     private Rigidbody2D rb2D;
@@ -74,6 +75,21 @@ public class PlayerController : MonoBehaviour {
 
         float moveHorizontal = playerController.GetAxisRaw("Horizontal");
         moveDirection = new Vector2(moveHorizontal, 0f);
+
+        if (playerController.GetButtonDown("Gravity"))
+        {
+            if (gravity < 0)
+            {
+                gravity = gravity * (-1);
+                sprite.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+            else
+            {
+                gravity = gravity * (-1);
+                sprite.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
+        }
+       
     }
 
     private void OnDrawGizmosSelected() {
