@@ -1518,7 +1518,7 @@ ScriptedImporter:
     - {x: 0, y: 33}
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 47, y: -161}
+    uvTransform: {x: 48, y: -161}
   - name: Rectangle 2 copie
     originalName: 
     pivot: {x: 0.5, y: 0.5}

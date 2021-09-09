@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2983579928658668156}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.213465, y: 0.213465, z: 0.42693}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 2
+  explosion: {fileID: 5717775414975354252, guid: 27fc19eec0c2a5349899d325cdb8a545, type: 3}
 --- !u!50 &5700105349731872615
 Rigidbody2D:
   serializedVersion: 4
