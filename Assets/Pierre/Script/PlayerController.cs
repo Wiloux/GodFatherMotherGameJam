@@ -352,4 +352,11 @@ public class PlayerController : MonoBehaviour
             externalForces += force;
             velocity = Vector2.zero;
         }
-    } 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("death"))
+            {
+                //Mettre effet de la mort ici
+            }
+        }
+} 
