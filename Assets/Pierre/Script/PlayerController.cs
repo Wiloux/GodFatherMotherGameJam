@@ -356,7 +356,7 @@ public class PlayerController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("death"))
             {
-                //Mettre effet de la mort ici
+                Time.timeScale = 0.4f;
             }
         }
 } 
