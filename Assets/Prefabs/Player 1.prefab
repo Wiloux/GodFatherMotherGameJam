@@ -878,7 +878,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  turnAroundMaxDuration: 0.1
+  turnAroundMaxDuration: 0.2
   turnAroundCurve:
     serializedVersion: 2
     m_Curve:
@@ -913,8 +913,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   grounded: 0
-  knockbackForce: 20
-  jumpForce: 15
+  knockbackForce: 16
+  jumpForce: 17
   groundCheck: {fileID: 2483531485824126599}
   groundedRadius: 0.2
   body: {fileID: 7489715968258515481}
