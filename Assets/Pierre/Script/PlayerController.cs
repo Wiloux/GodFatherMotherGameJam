@@ -89,17 +89,10 @@ public class PlayerController : MonoBehaviour
         moveDirection = new Vector2(moveHorizontal, 0f);
 
         if (playerController.GetButtonDown("Gravity"))
-        {
-            if (gravity < 0)
-            {
-                gravity = gravity * (-1);
-                sprite.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            }
-            else
-            {
-                gravity = gravity * (-1);
-                sprite.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-            }
+        { 
+            gravity *= -1;
+            float yScale = transform.localScale.y * -1;
+            transform.localScale = new Vector3(0.5f, yScale, 1f);
         }
 
     }

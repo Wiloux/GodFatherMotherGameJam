@@ -903,6 +903,15 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 0
+    - _id: 8
+      _name: Gravity
+      _type: 1
+      _descriptiveName: Gravity
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 0
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -917,7 +926,7 @@ MonoBehaviour:
     actionCategoryMap:
       list:
       - categoryId: 0
-        actionIds: 0000000001000000020000000600000007000000
+        actionIds: 000000000100000002000000060000000700000008000000
       - categoryId: 1
         actionIds: 030000000400000005000000
     inputBehaviors:
@@ -1039,7 +1048,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 8
         _elementType: 1
         _elementIdentifierId: 5
         _axisRange: 0
@@ -1594,7 +1603,7 @@ MonoBehaviour:
     controllerMapLayoutManagerRuleSets: []
     controllerMapEnablerRuleSets: []
     playerIdCounter: 3
-    actionIdCounter: 8
+    actionIdCounter: 9
     actionCategoryIdCounter: 2
     inputBehaviorIdCounter: 1
     mapCategoryIdCounter: 2
@@ -1665,7 +1674,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 63
-  playerPrefab: {fileID: 9200187063056256371, guid: fd5153ea242f1ce4385d34ff98aff840, type: 3}
+  playerPrefab: {fileID: 8381559994800279827, guid: ee94a854c8dd3db43a245f3cdc8def0f, type: 3}
 --- !u!1 &6927345656306520419
 GameObject:
   m_ObjectHideFlags: 0
