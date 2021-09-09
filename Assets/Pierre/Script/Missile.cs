@@ -6,6 +6,7 @@ using ToolsBoxEngine;
 public class Missile : MonoBehaviour {
     [SerializeField] private float radius;
     public GameObject explosion;
+    public PlayerController creator;
 
 
     private void Start()
@@ -15,7 +16,7 @@ public class Missile : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         //if (collision.gameObject.name.Equals("Tilemap")) {
-        if (GameManager.instance.whatIsGround.Contains(collision.gameObject.layer)) {
+        if (GameManager.instance.whatIsGround.Contains(collision.gameObject.layer) && collision.GetComponent<PlayerController>() != creator) {
             GameManager.instance.terrainDestruction.DestroyTerrain(transform.position, radius);
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
