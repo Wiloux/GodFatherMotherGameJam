@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour {
     [Header("Game")]
     public LayerMask whatIsGround;
 
+
+    public Sprite player2ArmVisuals;
+
     bool gameStarted;
 
     private void Awake() {
@@ -100,6 +103,12 @@ public class GameManager : MonoBehaviour {
             if (playersController[i] == null) { return; }
 
             GameObject spawnedPlayer = Instantiate(playerPrefab);
+            if (i != 0)
+            {
+                spawnedPlayer.transform.Find("CharacterRoot/character2").gameObject.SetActive(true);
+                spawnedPlayer.transform.Find("RocketRotate/RocketRoot/RocketCharacter1/CharacterArm").GetComponent<SpriteRenderer>().sprite = player2ArmVisuals;
+                spawnedPlayer.transform.Find("CharacterRoot/character1").gameObject.SetActive(false);
+            }
             spawnedPlayer.GetComponent<PlayerController>().playerController = ReInput.players.GetPlayer(i);
         }
     }
