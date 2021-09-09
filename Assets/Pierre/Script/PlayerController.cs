@@ -212,10 +212,13 @@ public class PlayerController : MonoBehaviour
 
         private void UpdateExternalForces()
         {
-            //velocity += externalForces;
-            if (grounded && !wasGrounded)
-            {
+            if (grounded && !wasGrounded) {
                 externalForces.y = 0f;
+            }
+
+            if (externalForces.y * velocity.y < 0) {
+                externalForces.y += velocity.y;
+                velocity.y = 0f;
             }
 
             //if (externalForces.x * velocity.x < 0) {
@@ -225,8 +228,12 @@ public class PlayerController : MonoBehaviour
             //        externalForces.x = 0f;
             //    }
             //}
-            if (grounded)
-            {
+
+            if (externalForces.x > speedMax) {
+                externalForces.x = ApplyFrictions(externalForces).x;
+            }
+
+            if (grounded) {
                 externalForces.x = ApplyFrictions(externalForces).x;
             }
         }

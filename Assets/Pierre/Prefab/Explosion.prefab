@@ -4892,3 +4892,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd72985653a0e74d85a462edbf9eaf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 2
+  knockBackForce: 20
