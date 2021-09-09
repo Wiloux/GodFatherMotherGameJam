@@ -1,7 +1,25 @@
 fileFormatVersion: 2
 guid: 8f894813b47c9fc49bf7423395f64ae0
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 4851161556834317423
+    second: victoryScreenIllus_0
+  - first:
+      213: -2926836340850425611
+    second: victoryScreenIllus_1
+  - first:
+      213: 3933966547491679548
+    second: victoryScreenIllus_2
+  - first:
+      213: 3219385969579224765
+    second: victoryScreenIllus_3
+  - first:
+      213: 564125607895027376
+    second: victoryScreenIllus_4
+  - first:
+      213: 7640001756611516035
+    second: victoryScreenIllus_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,7 +59,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -99,9 +117,159 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: victoryScreenIllus_0
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 880
+        width: 421
+        height: 147
+      alignment: 9
+      pivot: {x: 0.49601343, y: 0.5709465}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f64f32fbbb9c25340800000000000000
+      internalID: 4851161556834317423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: victoryScreenIllus_1
+      rect:
+        serializedVersion: 2
+        x: 1033
+        y: 880
+        width: 420
+        height: 149
+      alignment: 9
+      pivot: {x: 0.51204574, y: 0.546877}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f008e3ead9c167d0800000000000000
+      internalID: -2926836340850425611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: victoryScreenIllus_2
+      rect:
+        serializedVersion: 2
+        x: 1194
+        y: 32
+        width: 697
+        height: 796
+      alignment: 9
+      pivot: {x: 0.629294, y: 0.024504311}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3de28d5bb1489630800000000000000
+      internalID: 3933966547491679548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: victoryScreenIllus_3
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 16
+        width: 691
+        height: 794
+      alignment: 9
+      pivot: {x: 0.36246994, y: 0.020636152}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbe65a77b7e8dac20800000000000000
+      internalID: 3219385969579224765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: victoryScreenIllus_4
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 456
+        width: 152
+        height: 64
+      alignment: 9
+      pivot: {x: 0.4929934, y: 0.38352442}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bec843604d24d700800000000000000
+      internalID: 564125607895027376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: victoryScreenIllus_5
+      rect:
+        serializedVersion: 2
+        x: 1007
+        y: 456
+        width: 150
+        height: 64
+      alignment: 9
+      pivot: {x: 0.4999992, y: 0.40016413}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38690328e1db60a60800000000000000
+      internalID: 7640001756611516035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
