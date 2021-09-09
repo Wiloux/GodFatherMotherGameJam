@@ -293,7 +293,6 @@ MonoBehaviour:
   firePoint: {fileID: 40748591659811717}
   bullet: {fileID: 2983579928658668156, guid: 30edc504418a73f41b1d9ede96f9e366, type: 3}
   speed: 20
-  aimDirection: {x: 0, y: 0}
 --- !u!1001 &9140949900542789183
 PrefabInstance:
   m_ObjectHideFlags: 0
