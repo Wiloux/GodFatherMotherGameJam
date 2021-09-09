@@ -29,7 +29,6 @@ public class TerrainDestruction : MonoBehaviour
                     Vector3Int tilePos = terrain.WorldToCell(explosionPosition + new Vector3(x, y, 0));
                     if (terrain.GetTile(tilePos) != null)
                     {
-                        Debug.Log(terrain.GetTile(tilePos).name);
                         DestroyTile(tilePos);
                     }
                     //}
