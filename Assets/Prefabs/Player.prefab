@@ -167,7 +167,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  gravity: 1
+  gravity: 0.5
   frictionsDuration: 0.3
   frictonsCurve:
     serializedVersion: 2
@@ -227,7 +227,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  jumpForce: 15
+  grounded: 0
+  knockbackForce: 15
+  jumpForce: 10
   groundCheck: {fileID: 3658685146288184575}
   groundedRadius: 0.2
   body: {fileID: 4609164098020987767}
