@@ -277,4 +277,12 @@ public class PlayerController : MonoBehaviour
     {
         rb2D.velocity = velocity;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("death"))
+        {
+            //Mettre effet de la mort ici
+        }
+    }
 }
