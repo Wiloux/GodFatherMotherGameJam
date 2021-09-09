@@ -233,6 +233,7 @@ MonoBehaviour:
   groundCheck: {fileID: 3658685146288184575}
   groundedRadius: 0.2
   body: {fileID: 4609164098020987767}
+  Sprite: {fileID: 1408916430056513717}
 --- !u!61 &8160152023734308371
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -400,6 +401,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 8598236724278326016, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
+--- !u!1 &1408916430056513717 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7878580838429107850, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
+  m_PrefabInstance: {fileID: 9140949900542789183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8968291162040878314 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 193347793820451541, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
@@ -514,7 +520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 378114808310713030, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.000000059604645
+      value: 0.009999931
       objectReference: {fileID: 0}
     - target: {fileID: 378114808310713030, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
       propertyPath: m_Bounds.m_Center.y
