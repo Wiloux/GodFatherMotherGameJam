@@ -227,7 +227,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  knockbackForce: 50
+  grounded: 0
+  knockbackForce: 15
   jumpForce: 10
   groundCheck: {fileID: 3658685146288184575}
   groundedRadius: 0.2

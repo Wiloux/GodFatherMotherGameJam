@@ -1664,7 +1664,7 @@ MonoBehaviour:
   terrainDestruction: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 63
   playerPrefab: {fileID: 9200187063056256371, guid: fd5153ea242f1ce4385d34ff98aff840, type: 3}
 --- !u!1 &6927345656306520419
 GameObject:
