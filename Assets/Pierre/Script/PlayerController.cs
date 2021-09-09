@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour {
     public Transform groundCheck;
     public float groundedRadius;
 
+    public bool isUpsideDown;
+
     [Header("Sprite")]
     [SerializeField] private Transform body;
     public GameObject sprite;
@@ -84,6 +86,8 @@ public class PlayerController : MonoBehaviour {
 
         if (playerController.GetButtonDown("Gravity"))
         {
+
+            isUpsideDown = !isUpsideDown;
             gravity *= -1;
             float yScale = transform.localScale.y * -1;
             transform.localScale = new Vector3(0.5f, yScale, 1f);
@@ -125,7 +129,10 @@ public class PlayerController : MonoBehaviour {
             if (jumping) {
                 characterAnimator.ResetTrigger("GroundContact");
                 characterAnimator.SetTrigger("Jump");
-                velocity.y += jumpForce;
+                if (!isUpsideDown)
+                    velocity.y += jumpForce;
+                else
+                    velocity.y -= jumpForce;
             }
         }
 
