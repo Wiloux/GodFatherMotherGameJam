@@ -21,6 +21,9 @@ public class Missile : MonoBehaviour {
             GameManager.instance.terrainDestruction.DestroyTerrain(transform.position, radius);
             Explosion lastExplosion = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<Explosion>();
             lastExplosion.radius = knockBackRadius;
+            if (collision.gameObject.CompareTag("Player")) {
+                lastExplosion.ToOblivion(collision.gameObject.GetComponent<PlayerController>());
+            }
             Destroy(gameObject);
         }
     }
