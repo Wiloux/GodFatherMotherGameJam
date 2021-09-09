@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public LayerMask whatIsGround;
 
 
-    private GameObject gridObject;
+    public GameObject gridObject;
 
 
     public Sprite player2ArmVisuals;
@@ -32,7 +32,9 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
 
+
         gridObject = transform.Find("Grid").gameObject;
+        terrainDestruction = gridObject.GetComponent<TerrainDestruction>();
         assignedJoysticks = new List<int>();
         ReInput.ControllerConnectedEvent += OnControllerConnected;
 
@@ -120,12 +122,14 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < gridObject.transform.childCount; i++)
         {
-            if (i == mapID)
+            if (i != mapID)
             {
-                terrainDestruction.terrain = gridObject.transform.GetChild(i).GetComponent<Tilemap>();
-                gridObject.transform.GetChild(i).gameObject.SetActive(true);
+                gridObject.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+
+        terrainDestruction.terrain = gridObject.transform.GetChild(mapID).GetComponent<Tilemap>();
+
 
         gameStarted = true;
         multiplayerPanel.SetActive(false);
