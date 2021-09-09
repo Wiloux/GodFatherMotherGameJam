@@ -11,8 +11,8 @@ public class Shoot : MonoBehaviour {
 
     public float speed = 20f;
 
-    public Vector2 aimDirection;
-    private Vector2 bulletDirection;
+    private Vector2 aimDirection = Vector2.up;
+    private Vector2 bulletDirection = Vector2.up;
 
     void Start() {
         playerController = GetComponent<PlayerController>().playerController;
