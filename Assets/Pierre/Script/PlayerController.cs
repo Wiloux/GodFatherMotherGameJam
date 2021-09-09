@@ -56,7 +56,6 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb2D;
 
     void Start() {
-        Time.timeScale = 0.2f;
         rb2D = GetComponent<Rigidbody2D>();
     }
 
