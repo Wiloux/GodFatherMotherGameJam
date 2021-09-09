@@ -61,10 +61,12 @@ public class PlayerController : MonoBehaviour
 
     private bool faceR = true;
     private Rigidbody2D rb2D;
+    private Animation anim;
 
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
+        anim = gameObject.GetComponent<Animation>();
     }
 
     private void FixedUpdate()
@@ -354,4 +356,12 @@ public class PlayerController : MonoBehaviour
             externalForces += force;
             velocity = Vector2.zero;
         }
-    } 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+        if (collision.gameObject.CompareTag("death"))
+        {
+            Time.timeScale = 0.4f;
+            anim.Play("hastalavista");
+        }
+    }
+} 

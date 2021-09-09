@@ -5,9 +5,10 @@ using UnityEngine;
 public class Explosion : MonoBehaviour {
     public float radius = 2f;
     public float knockBackForce = 20f;
+    public float oblivionFactor = 1.3f;
 
     void Start() {
-        KnockPlayers();
+        Boum();
         Destroy(gameObject, 2f);
         //StartCoroutine(DisableCollision());
     }
@@ -33,22 +34,30 @@ public class Explosion : MonoBehaviour {
     //    }
     //}
 
-    private void KnockPlayers() {
+    private void Boum() {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
 
         for (int i = 0; i < colliders.Length; i++) {
             if (colliders[i].gameObject.CompareTag("Player")) {
-                PlayerController player = colliders[i].gameObject.GetComponent<PlayerController>();
-                Vector2 knockBack = player.transform.position - transform.position;
-                Vector2 knockbackDir = (player.transform.position - transform.position).normalized;
-                float knockBackMag = knockBack.sqrMagnitude;
-                float force = Mathf.InverseLerp(radius * radius, 0f, knockBackMag);
-                Debug.Log(force);
-                //Debug.DrawLine(transform.position, (Vector3)knockbackDir * knockBackMag + transform.position, Color.yellow);
-                //player.KnockBack(knockbackDir.normalized);
-                player.AddExternalForce(knockbackDir * force * knockBackForce);
+                KnockPlayer(colliders[i].gameObject.GetComponent<PlayerController>());
             }
         }
+    }
+
+    private void KnockPlayer(PlayerController player) {
+        Vector2 knockBack = player.transform.position - transform.position;
+        Vector2 knockbackDir = (player.transform.position - transform.position).normalized;
+        float knockBackMag = knockBack.sqrMagnitude;
+        float force = Mathf.InverseLerp(radius * radius, 0f, knockBackMag);
+        //Debug.DrawLine(transform.position, (Vector3)knockbackDir * knockBackMag + transform.position, Color.yellow);
+        //player.KnockBack(knockbackDir.normalized);
+        player.AddExternalForce(knockbackDir * force * knockBackForce);
+    }
+
+    public void ToOblivion(PlayerController player) {
+        Vector2 knockBack = player.transform.position - transform.position;
+        Vector2 knockbackDir = new Vector2(Mathf.Sign(knockBack.x), 0.2f * Mathf.Sign(knockBack.y)).normalized;
+        player.AddExternalForce(knockbackDir * knockBackForce * oblivionFactor);
     }
 
     private void OnDrawGizmosSelected() {
