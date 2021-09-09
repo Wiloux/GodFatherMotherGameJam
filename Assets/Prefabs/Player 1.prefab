@@ -878,7 +878,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  turnAroundMaxDuration: 0.2
+  turnAroundMaxDuration: 0.1
   turnAroundCurve:
     serializedVersion: 2
     m_Curve:
