@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 2
   knockBackRadius: 4
-  explosion: {fileID: 5717775414975354252, guid: 27fc19eec0c2a5349899d325cdb8a545, type: 3}
+  explosion: {fileID: 6151145429885673103, guid: 4de65649d63903548b356a4f0799b828, type: 3}
   creator: {fileID: 0}
   explosionFX: {fileID: 8300000, guid: f992450d6477c7a4487513f74006673f, type: 3}
   expVFX: {fileID: 6151145429885673103, guid: 4de65649d63903548b356a4f0799b828, type: 3}
