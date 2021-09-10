@@ -83,8 +83,8 @@ public class GameManager : MonoBehaviour {
                 Rewired.Player player = ReInput.players.GetPlayer("P" + (i + 1));
                 if (player.GetButtonDown("Leave game")) {
                     RemoveController(i);
-                    multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(0).gameObject.SetActive(true);
-                    multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(1).gameObject.SetActive(false);
+                    multiplayerPanel.transform.GetChild(0).GetChild(i+2).GetChild(0).gameObject.SetActive(true);
+                    multiplayerPanel.transform.GetChild(0).GetChild(i+2).GetChild(1).gameObject.SetActive(false);
                 }
             }
         }
@@ -101,8 +101,8 @@ public class GameManager : MonoBehaviour {
         if (AddController(controller)) {
             for (int i = 0; i < playersController.Length; i++) {
                 if (playersController[i] != null) {
-                    multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(0).gameObject.SetActive(false);
-                    multiplayerPanel.transform.GetChild(0).GetChild(i).GetChild(1).gameObject.SetActive(true);
+                    multiplayerPanel.transform.GetChild(0).GetChild(i+2).GetChild(0).gameObject.SetActive(false);
+                    multiplayerPanel.transform.GetChild(0).GetChild(i+2).GetChild(1).gameObject.SetActive(true);
                     //  multiplayerPanel.ChangePortraitSprite(i, 0);
                 }
             }
