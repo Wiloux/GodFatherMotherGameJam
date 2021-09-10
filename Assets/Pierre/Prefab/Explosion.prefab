@@ -4893,4 +4893,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 2
-  knockBackForce: 20
+  knockBackForce: 18
+  oblivionFactor: 0.7

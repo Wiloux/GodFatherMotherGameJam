@@ -63,6 +63,17 @@ public class CameraEngine : MonoBehaviour {
         }
     }
 
+    private IEnumerator ISetRotationIn(Quaternion rotation, float time) {
+        Quaternion baseRotation = transform.localRotation;
+        int frameNumber = Mathf.FloorToInt(time * 60f);
+        //Quaternion stepVector = deltaVector / (float)frameNumber;
+        //Vector3.Lerp(Vector3.zero, deltaVector, (float)i / (float)frameNumber)
+        for (int i = 0; i < frameNumber; i++) {
+            transform.localRotation = Quaternion.Slerp(baseRotation, rotation, (float)i /(float)frameNumber);
+            yield return new WaitForSeconds(1f / 60f);
+        }
+    }
+
     private IEnumerator IShake(Vector2 delta, float time, float shakeTime) {
         //Vector3 basePosition = transform.position;
         float timePassed = 0f;
