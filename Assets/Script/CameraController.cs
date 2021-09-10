@@ -55,4 +55,9 @@ public class CameraController : MonoBehaviour {
 
         move = true;
     }
+
+    public void StopMove() {
+        engine.StopAllCoroutines();
+        move = false;
+    }
 }

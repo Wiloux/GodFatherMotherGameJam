@@ -121,10 +121,16 @@ public class GameManager : MonoBehaviour {
     void BeginGame() {
         MapInformation map = GetAMap();
 
+        CameraController cameraController = mainCamera.GetComponent<CameraController>();
+
         if (map.cameraMove) {
-            mainCamera.GetComponent<CameraController>().start = map.start;
-            mainCamera.GetComponent<CameraController>().end = map.end;
-            mainCamera.GetComponent<CameraController>().StartMove();
+            cameraController.start = map.start;
+            cameraController.end = map.end;
+            cameraController.StartMove();
+        } else {
+            cameraController.start = null;
+            cameraController.end = null;
+            cameraController.StopMove();
         }
 
         playerSpawns.Add(map.blueSpawn);
@@ -158,27 +164,11 @@ public class GameManager : MonoBehaviour {
 
     private MapInformation GetAMap() {
         int mapID = -1;
-        //for (int i = 0; i < gridObject.transform.childCount; i++) {
-        //    GameObject child = gridObject.transform.GetChild(i).gameObject;
-        //    if (child.activeSelf) {
-        //        mapID = i;
-        //    }
-        //}
-
-        //if (mapID == -1) {
-        //}
         mapID = Random.Range(0, maps.Count);
 
-        //for (int i = 0; i < gridObject.transform.childCount; i++) {
-        //    gridObject.transform.GetChild(i).gameObject.SetActive(false);
-        //}
-
-
         GameObject obj = Instantiate(maps[mapID], gridObject.transform);
-        //gridObject.transform.GetChild(mapID).gameObject.SetActive(true);
         obj.SetActive(true);
 
-        //return gridObject.transform.GetChild(mapID).gameObject.GetComponent<MapInformation>();
         return obj.GetComponent<MapInformation>();
     }
 
@@ -252,12 +242,16 @@ public class GameManager : MonoBehaviour {
         endAnimator.gameObject.SetActive(false);
         ended = false;
         for (int i = 0; i < players.Count; i++) {
+            players[i].SetActive(false);
             Destroy(players[i]);
+            players.RemoveAt(i);
         }
         for (int i = 0; i < gridObject.transform.childCount; i++) {
             gridObject.transform.GetChild(i).gameObject.SetActive(false);
         }
+        playerSpawns.Clear();
         mainCamera.transform.position = new Vector3(0, 0, -10);
+        mainCamera.GetComponent<CameraController>().StopMove();
         BeginGame();
         //SceneManager.LoadScene("SceneFinal");
     }
