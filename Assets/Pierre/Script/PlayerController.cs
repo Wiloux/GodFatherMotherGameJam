@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Rewired;
 using ToolsBoxEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
     public Rewired.Player playerController;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour {
     private Animation anim;
 
     public GameObject menuFin;
+    private bool death = false;
 
     public List<AudioClip> jump = new List<AudioClip>();
 
@@ -118,6 +120,15 @@ public class PlayerController : MonoBehaviour {
         } else {
 
             gravityCooldown -= Time.deltaTime;
+        }
+
+        if (death)
+        {
+            if (playerController.GetButtonDown("Jump"))
+                BouttonJouer();
+
+            if (playerController.GetButtonDown("Gravity"))
+                BouttonMenu();
         }
     }
 
@@ -319,6 +330,19 @@ public class PlayerController : MonoBehaviour {
             Time.timeScale = 0.4f;
             anim.Play("hastalavista");
             menuFin.SetActive(true);
+            death = true;
         }
+    }
+
+    public void BouttonJouer()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("SceneFinal");
+    }
+
+    public void BouttonMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Menu");
     }
 }
