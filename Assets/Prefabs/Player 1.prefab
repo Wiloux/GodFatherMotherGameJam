@@ -1027,6 +1027,9 @@ MonoBehaviour:
   characterAnimator: {fileID: 0}
   rocketAnimator: {fileID: 0}
   menuFin: {fileID: 2294440600647458736, guid: 0bd46c07b75f74f49812eec95155646d, type: 3}
+  jump:
+  - {fileID: 8300000, guid: de513794efe78c64b880589a1ceed588, type: 3}
+  - {fileID: 8300000, guid: c71bc4474ce3c5a4ebef48e1391ba822, type: 3}
   playerID: 0
 --- !u!114 &5478468661059339116
 MonoBehaviour:
@@ -1045,6 +1048,7 @@ MonoBehaviour:
   rocketVisual: {fileID: 3164198194473531762}
   rocketLauncherVisual: {fileID: 9221687104334477894}
   speed: 20
+  shootFX: {fileID: 8300000, guid: 8160c69a13a0d8f459d3a842be6bb527, type: 3}
   aimDirection: {x: 0, y: 1}
   cooldownDuration: 0.5
 --- !u!50 &262969391469628157
