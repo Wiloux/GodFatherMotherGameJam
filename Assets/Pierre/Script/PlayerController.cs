@@ -6,8 +6,7 @@ using Rewired;
 using ToolsBoxEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
     public Rewired.Player playerController;
 
     [Header("Movements")]
@@ -65,22 +64,17 @@ public class PlayerController : MonoBehaviour
     private Animation anim;
 
     public GameObject menuFin;
-    private bool death = false;
 
     public List<AudioClip> jump = new List<AudioClip>();
 
     public ParticleSystem jumpVFX;
 
     public int playerID;
-    void Start()
-    {
+    void Start() {
         rb2D = GetComponent<Rigidbody2D>();
-        if (playerID != 1)
-        {
+        if (playerID != 1) {
             characterAnimator = transform.Find("CharacterRoot/character1").GetComponent<Animator>();
-        }
-        else
-        {
+        } else {
             characterAnimator = transform.Find("CharacterRoot/character2").GetComponent<Animator>();
 
         }
@@ -88,16 +82,22 @@ public class PlayerController : MonoBehaviour
         menuFin.SetActive(false);
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
         UpdateGravity();
         UpdateMove();
         UpdateExternalForces();
         ApplySpeed();
     }
 
-    void Update()
-    {
+    void Update() {
+        if (GameManager.instance.ended) {
+            if (playerController.GetButtonDown("Leave Game")) {
+                GameManager.instance.Menu();
+            } else if (playerController.GetAnyButtonDown()) {
+                GameManager.instance.Restart();
+            }
+            return;
+        }
 
         if (grounded && velocity.x != 0 && !psRun.isPlaying)
             psRun.Play();
@@ -107,8 +107,7 @@ public class PlayerController : MonoBehaviour
 
         characterAnimator.SetFloat("Speed", Mathf.Abs(velocity.x));
 
-        if (playerController.GetButtonDown("Jump") && grounded)
-        {
+        if (playerController.GetButtonDown("Jump") && grounded) {
             jumpVFX.Play();
             jumping = true;
             SoundManager.Instance.PlaySoundEffectList(jump);
@@ -121,17 +120,14 @@ public class PlayerController : MonoBehaviour
         float moveHorizontal = playerController.GetAxisRaw("Horizontal");
         moveDirection = new Vector2(moveHorizontal, 0f);
 
-        if (gravityCooldown <= 0f && !gaveup)
-        {
+        if (gravityCooldown <= 0f && !gaveup) {
             gaveup = true;
             readyPowerFx.Play();
         }
 
-        if (gravityCooldown <= 0f)
-        {
+        if (gravityCooldown <= 0f) {
 
-            if (playerController.GetButtonDown("Gravity"))
-            {
+            if (playerController.GetButtonDown("Gravity")) {
                 gaveup = false;
                 activatePowerFx.Play();
                 GetComponent<Shoot>().aimDirection *= -1;
@@ -143,21 +139,8 @@ public class PlayerController : MonoBehaviour
                 gravityCooldown = gravityCooldownDuration;
             }
 
-
-        }
-        else
-        {
-
+        } else {
             gravityCooldown -= Time.deltaTime;
-        }
-
-        if (death)
-        {
-            if (playerController.GetButtonDown("Jump"))
-                BouttonJouer();
-
-            if (playerController.GetButtonDown("Gravity"))
-                BouttonMenu();
         }
     }
 
@@ -166,47 +149,37 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem activatePowerFx;
     public ParticleSystem readyPowerFx;
 
-    public void TurnAround()
-    {
+    public void TurnAround() {
         if (playerController.GetAxis("Horizontal") != 0)
             //body.flipX = playerController.GetAxis("Horizontal") > 0 ? true : false;
             body.localScale = body.localScale.Override(Mathf.Abs(body.localScale.x) * playerController.GetAxis("Horizontal") > 0 ? 1 : -1, Axis.X);
     }
 
-    private void OnDrawGizmosSelected()
-    {
+    private void OnDrawGizmosSelected() {
         //Gizmos.DrawWireSphere(groundCheck.transform.position, groundedRadius);
         Gizmos.DrawWireCube(groundCheck.transform.position, groundCheck.localScale);
     }
 
-    private void UpdateGravity()
-    {
+    private void UpdateGravity() {
         grounded = false;
 
         //Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, GameManager.instance.whatIsGround);
         Collider2D[] colliders = Physics2D.OverlapBoxAll(groundCheck.position, groundCheck.localScale, 0f, GameManager.instance.whatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != gameObject)
-            {
+        for (int i = 0; i < colliders.Length; i++) {
+            if (colliders[i].gameObject != gameObject) {
                 grounded = true;
             }
         }
 
-        if (!grounded)
-        {
+        if (!grounded) {
             velocity += Vector2.down * gravity;
-        }
-        else
-        {
-            if (!wasGrounded)
-            {
+        } else {
+            if (!wasGrounded) {
                 characterAnimator.SetTrigger("GroundContact");
                 velocity.y = 0f;
             }
 
-            if (jumping)
-            {
+            if (jumping) {
                 characterAnimator.ResetTrigger("GroundContact");
                 characterAnimator.SetTrigger("Jump");
                 if (!isUpsideDown)
@@ -222,41 +195,29 @@ public class PlayerController : MonoBehaviour
 
     public ParticleSystem psRun;
 
-    private void UpdateMove()
-    {
+    private void UpdateMove() {
         bool isMoving = moveDirection != Vector2.zero;
 
-        if (isMoving)
-        {
-            if (velocity != Vector2.zero)
-            {
+        if (isMoving) {
+            if (velocity != Vector2.zero) {
 
-                if (Vector3.Dot(previousMoveDirection, moveDirection) < 0f)
-                {
+                if (Vector3.Dot(previousMoveDirection, moveDirection) < 0f) {
                     StartTurnAround();
                     characterAnimator.SetBool("TurnAround", true);
                 }
-            }
-            else
-            {
+            } else {
                 StartAcceleration();
             }
 
-            if (isTurningAround)
-            {
+            if (isTurningAround) {
                 velocity = ApplyTurnAround().Override(velocity.y, Axis.Y);
-            }
-            else
-            {
+            } else {
                 velocity = ApplyAcceleration().Override(velocity.y, Axis.Y);
             }
 
             previousMoveDirection = moveDirection;
-        }
-        else if (grounded)
-        {
-            if (wasMoving)
-            {
+        } else if (grounded) {
+            if (wasMoving) {
                 StartFrictions();
             }
             velocity = ApplyFrictions().Override(velocity.y, Axis.Y);
@@ -265,15 +226,12 @@ public class PlayerController : MonoBehaviour
         wasMoving = isMoving;
     }
 
-    private void UpdateExternalForces()
-    {
-        if (grounded && !wasGrounded)
-        {
+    private void UpdateExternalForces() {
+        if (grounded && !wasGrounded) {
             externalForces.y = 0f;
         }
 
-        if (externalForces.y * velocity.y < 0)
-        {
+        if (externalForces.y * velocity.y < 0) {
             externalForces.y += velocity.y;
             velocity.y = 0f;
         }
@@ -286,82 +244,66 @@ public class PlayerController : MonoBehaviour
         //    }
         //}
 
-        if (externalForces.x > speedMax)
-        {
+        if (externalForces.x > speedMax) {
             externalForces.x = ApplyFrictions(externalForces).x;
         }
 
-        if (grounded)
-        {
+        if (grounded) {
             externalForces.x = ApplyFrictions(externalForces).x;
         }
     }
 
-    private void StartAcceleration()
-    {
+    private void StartAcceleration() {
         float currentSpeed = Mathf.Abs(velocity.x);
         float accelerationTimerRatio = currentSpeed / speedMax;
         accelerationTimer = Mathf.Lerp(0f, accelerationDuration, accelerationTimerRatio);
     }
 
-    private Vector2 ApplyAcceleration()
-    {
+    private Vector2 ApplyAcceleration() {
         Vector2 velocity = Vector2.zero;
         accelerationTimer += Time.deltaTime;
-        if (accelerationTimer < accelerationDuration)
-        {
+        if (accelerationTimer < accelerationDuration) {
             float ratio = accelerationTimer / accelerationDuration;
             ratio = accelerationCurve.Evaluate(ratio);
             float speed = Mathf.Lerp(0f, speedMax, ratio);
             return moveDirection * speed;
-        }
-        else
-        {
+        } else {
             return moveDirection * speedMax;
         }
     }
 
-    private void StartFrictions()
-    {
+    private void StartFrictions() {
         float currentSpeed = Mathf.Abs(velocity.x);
         float frictionTimerRatio = Mathf.InverseLerp(0f, speedMax, currentSpeed);
         frictionsTimer = Mathf.Lerp(frictionsDuration, 0f, frictionTimerRatio);
     }
 
-    private Vector2 ApplyFrictions()
-    {
+    private Vector2 ApplyFrictions() {
         frictionsTimer += Time.deltaTime;
-        if (frictionsTimer < frictionsDuration)
-        {
+        if (frictionsTimer < frictionsDuration) {
             //Calculate Frictions according to timer and curve
             float ratio = frictionsTimer / frictionsDuration;
             ratio = frictonsCurve.Evaluate(ratio);
             float speed = Mathf.Lerp(speedMax, 0f, ratio);
             return new Vector2(velocity.x / speedMax * speed, 0f);
-        }
-        else
-        {
+        } else {
             //Reset speed
             previousMoveDirection = Vector2.zero;
             return Vector2.zero;
         }
     }
 
-    private Vector2 ApplyFrictions(Vector2 velocity)
-    {
+    private Vector2 ApplyFrictions(Vector2 velocity) {
         float currentSpeed = Mathf.Abs(velocity.x);
         float frictionTimerRatio = Mathf.Clamp01(Mathf.InverseLerp(0f, speedMax, currentSpeed));
         float frictionsTimer = Mathf.Lerp(frictionsDuration, 0f, frictionTimerRatio);
         frictionsTimer += Time.deltaTime;
-        if (frictionsTimer < frictionsDuration)
-        {
+        if (frictionsTimer < frictionsDuration) {
             float ratio = frictionsTimer / frictionsDuration;
             ratio = frictonsCurve.Evaluate(ratio);
             float speed = Mathf.Lerp(speedMax, 0f, ratio);
             return new Vector2(currentSpeed / speedMax * speed * Mathf.Sign(velocity.x), 0f);
-        }
-        else
-        {
+        } else {
             return Vector2.zero;
         }
     }
@@ -371,26 +313,21 @@ public class PlayerController : MonoBehaviour
     //    velocity += direction * knockbackForce;
     //}
 
-    private void StartTurnAround()
-    {
+    private void StartTurnAround() {
         isTurningAround = true;
         turnAroundTimer = 0f;
         turnAroundDuration = Mathf.Lerp(0f, turnAroundMaxDuration, Mathf.Abs(velocity.x) / speedMax);
         turnAroundStartSpeed = velocity.x;
     }
 
-    private Vector2 ApplyTurnAround()
-    {
+    private Vector2 ApplyTurnAround() {
         turnAroundTimer += Time.deltaTime;
-        if (turnAroundTimer < turnAroundDuration)
-        {
+        if (turnAroundTimer < turnAroundDuration) {
             float ratio = turnAroundTimer / turnAroundDuration;
             ratio = turnAroundCurve.Evaluate(ratio);
             float speed = Mathf.Lerp(turnAroundStartSpeed, 0f, ratio);
             return velocity.normalized * Mathf.Abs(speed);
-        }
-        else
-        {
+        } else {
             characterAnimator.SetBool("TurnAround", false);
             accelerationTimer = 0f;
             isTurningAround = false;
@@ -398,15 +335,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ApplySpeed()
-    {
+    private void ApplySpeed() {
         rb2D.velocity = velocity + externalForces;
 
         wasGrounded = grounded;
     }
 
-    public void AddExternalForce(Vector2 force)
-    {
+    public void AddExternalForce(Vector2 force) {
         externalForces += force;
         velocity = Vector2.zero;
     }
@@ -418,45 +353,37 @@ public class PlayerController : MonoBehaviour
     public GameObject deathVFX;
     public AudioClip deathSFX;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("death"))
-        {
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.CompareTag("death")) {
             SoundManager.Instance.PlaySoundEffect(deathSFX);
             GameObject o = Instantiate(deathVFX, transform.position, Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.down, velocity)));
             Destroy(o, 3f);
 
             int deltaDir = 0;
             Vector2 direction = (transform.position - collision.transform.position).normalized;
-            if (direction.x < 0 || direction.y < 0)
-            {
+            if (direction.x < 0 || direction.y < 0) {
                 deltaDir += 1;
             }
             int id = playerID;
-            if (id == 0)
-            {
+
+            if (id == 0) {
                 SoundManager.Instance.PlaySoundEffect(winP2);
-
-            }
-            else
-            {
+            } else {
                 SoundManager.Instance.PlaySoundEffect(winP1);
-
             }
+
             deltaDir += (1 - id) * 2;
             Debug.Log(deltaDir);
             GameManager.instance.StartEndScreen(deltaDir);
         }
     }
 
-    public void BouttonJouer()
-    {
+    public void BouttonJouer() {
         Time.timeScale = 1f;
         SceneManager.LoadScene("SceneFinal");
     }
 
-    public void BouttonMenu()
-    {
+    public void BouttonMenu() {
         Time.timeScale = 1f;
         SceneManager.LoadScene("Menu");
     }
