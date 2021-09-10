@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMax: 10
+  externalForces: {x: 0, y: 0}
   accelerationDuration: 0.5
   accelerationCurve:
     serializedVersion: 2
@@ -232,8 +233,13 @@ MonoBehaviour:
   jumpForce: 10
   groundCheck: {fileID: 3658685146288184575}
   groundedRadius: 0.2
+  gravityCooldownDuration: 0
+  isUpsideDown: 0
   body: {fileID: 4609164098020987767}
-  Sprite: {fileID: 1408916430056513717}
+  sprite: {fileID: 0}
+  characterAnimator: {fileID: 0}
+  rocketAnimator: {fileID: 0}
+  playerID: 0
 --- !u!61 &8160152023734308371
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -295,7 +301,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 40748591659811717}
   bullet: {fileID: 2983579928658668156, guid: 30edc504418a73f41b1d9ede96f9e366, type: 3}
+  rocketVisual: {fileID: 0}
+  rocketLauncherVisual: {fileID: 0}
   speed: 20
+  aimDirection: {x: 0, y: 1}
+  cooldownDuration: 0
 --- !u!1001 &9140949900542789183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -319,6 +329,10 @@ PrefabInstance:
       propertyPath: m_Bounds.m_Extent.y
       value: 0.65683347
       objectReference: {fileID: 0}
+    - target: {fileID: -731816853650721497, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 193347793820451541, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -401,11 +415,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 8598236724278326016, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
---- !u!1 &1408916430056513717 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7878580838429107850, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
-  m_PrefabInstance: {fileID: 9140949900542789183}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8968291162040878314 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 193347793820451541, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
@@ -418,6 +427,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4609164098020987767}
     m_Modifications:
+    - target: {fileID: -8521589277306315878, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: -8343349783722766269, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
       propertyPath: m_Name
       value: character1
@@ -434,6 +447,10 @@ PrefabInstance:
       propertyPath: m_Bounds.m_Extent.x
       value: 0.20500004
       objectReference: {fileID: 0}
+    - target: {fileID: -7532773381795666383, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: -6550911603545965845, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: -0.000059962273
@@ -502,6 +519,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5991546377022225632, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    - target: {fileID: -4057097982826520279, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: -442132622106518741, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: 0.0003398955
@@ -530,6 +555,10 @@ PrefabInstance:
       propertyPath: m_Bounds.m_Extent.y
       value: 0.23500004
       objectReference: {fileID: 0}
+    - target: {fileID: 4212132726127053771, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 5063030633995603170, guid: 7cca5c187657e974bbbdd37d9ed25fb9, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: -0.000000029802322
