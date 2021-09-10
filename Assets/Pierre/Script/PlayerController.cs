@@ -77,7 +77,8 @@ public class PlayerController : MonoBehaviour {
             characterAnimator = transform.Find("CharacterRoot/character2").GetComponent<Animator>();
 
         }
-        menuFin.SetActive (false);
+
+        menuFin.SetActive(false);
     }
 
     private void FixedUpdate() {
@@ -94,7 +95,6 @@ public class PlayerController : MonoBehaviour {
             jumping = true;
             SoundManager.Instance.PlaySoundEffectList(jump);
         }
-
 
         if (playerController.GetAxis("Horizontal") != 0)
             //    //body.flipX = playerController.GetAxis("Horizontal") > 0 ? true : false;
@@ -122,8 +122,7 @@ public class PlayerController : MonoBehaviour {
             gravityCooldown -= Time.deltaTime;
         }
 
-        if (death)
-        {
+        if (death) {
             if (playerController.GetButtonDown("Jump"))
                 BouttonJouer();
 
@@ -325,23 +324,27 @@ public class PlayerController : MonoBehaviour {
         externalForces += force;
         velocity = Vector2.zero;
     }
+
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("death")) {
-            Time.timeScale = 0.4f;
-            anim.Play("hastalavista");
-            menuFin.SetActive(true);
-            death = true;
+            int deltaDir = 0;
+            Vector2 direction = (transform.position - collision.transform.position).normalized;
+            if (direction.x < 0 || direction.y < 0) {
+                deltaDir += 1;
+            }
+            int id = playerID;
+            deltaDir += (1 - id) * 2;
+            Debug.Log(deltaDir);
+            GameManager.instance.StartEndScreen(deltaDir);
         }
     }
 
-    public void BouttonJouer()
-    {
+    public void BouttonJouer() {
         Time.timeScale = 1f;
         SceneManager.LoadScene("SceneFinal");
     }
 
-    public void BouttonMenu()
-    {
+    public void BouttonMenu() {
         Time.timeScale = 1f;
         SceneManager.LoadScene("Menu");
     }
