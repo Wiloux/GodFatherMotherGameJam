@@ -121,12 +121,19 @@ public class PlayerController : MonoBehaviour
         float moveHorizontal = playerController.GetAxisRaw("Horizontal");
         moveDirection = new Vector2(moveHorizontal, 0f);
 
+        if (gravityCooldown <= 0f && !gaveup)
+        {
+            gaveup = true;
+            readyPowerFx.Play();
+        }
+
         if (gravityCooldown <= 0f)
         {
 
             if (playerController.GetButtonDown("Gravity"))
             {
-
+                gaveup = false;
+                activatePowerFx.Play();
                 GetComponent<Shoot>().aimDirection *= -1;
                 GetComponent<Shoot>().UpdateAim();
                 isUpsideDown = !isUpsideDown;
@@ -154,6 +161,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    bool gaveup;
+    public ParticleSystem activatePowerFx;
+    public ParticleSystem readyPowerFx;
 
     public void TurnAround()
     {
