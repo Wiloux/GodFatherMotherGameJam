@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 732332405715916191}
   - component: {fileID: 3050428665793940823}
   - component: {fileID: 7610906076954846913}
+  - component: {fileID: 1008696699210463185}
   m_Layer: 0
   m_Name: Map5
   m_TagString: Untagged
@@ -14886,6 +14887,23 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!114 &1008696699210463185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962897290514706431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7d5c3b39fec72479ac2afe3c339a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueSpawn: {fileID: 1603180421579524131}
+  redSpawn: {fileID: 6211680411937129049}
+  cameraMove: 1
+  start: {fileID: 3532050165518649058}
+  end: {fileID: 2787521133006536658}
 --- !u!1 &6289240573151981752
 GameObject:
   m_ObjectHideFlags: 0
