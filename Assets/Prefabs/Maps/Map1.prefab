@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7d5c3b39fec72479ac2afe3c339a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blueSpawn: {fileID: 0}
-  redSpawn: {fileID: 0}
+  blueSpawn: {fileID: 1326326861317360051}
+  redSpawn: {fileID: 5044367303136908646}
   cameraMove: 0
   start: {fileID: 0}
   end: {fileID: 0}
