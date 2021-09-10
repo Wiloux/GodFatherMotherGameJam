@@ -60,4 +60,8 @@ public class CameraController : MonoBehaviour {
         engine.StopAllCoroutines();
         move = false;
     }
+
+    public void Shake() {
+        engine.Shake(Vector2.one * 0.3f, 0.1f, 0.1f);
+    }
 }

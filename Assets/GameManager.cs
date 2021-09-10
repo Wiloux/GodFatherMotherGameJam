@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour {
 
     public List<GameObject> maps;
 
+    public bool canRestart = false;
+
     private void Awake() {
         instance = this;
 
@@ -239,20 +241,26 @@ public class GameManager : MonoBehaviour {
         ended = false;
         for (int i = 0; i < players.Count; i++) {
             players[i].SetActive(false);
+            Debug.Log("Players");
             Destroy(players[i]);
-            players.RemoveAt(i);
         }
+        players.Clear();
         for (int i = 0; i < gridObject.transform.childCount; i++) {
             gridObject.transform.GetChild(i).gameObject.SetActive(false);
         }
         playerSpawns.Clear();
         mainCamera.transform.position = new Vector3(0, 0, -10);
         mainCamera.GetComponent<CameraController>().StopMove();
+        canRestart = false;
         BeginGame();
         //SceneManager.LoadScene("SceneFinal");
     }
 
     public void Menu() {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void Shake() {
+        mainCamera.GetComponent<CameraController>().Shake();
     }
 }
