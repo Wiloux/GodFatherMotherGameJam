@@ -325,6 +325,10 @@ public class PlayerController : MonoBehaviour {
         velocity = Vector2.zero;
     }
 
+
+    public AudioClip winP1;
+    public AudioClip winP2;
+
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("death")) {
             int deltaDir = 0;
@@ -333,6 +337,16 @@ public class PlayerController : MonoBehaviour {
                 deltaDir += 1;
             }
             int id = playerID;
+            if(id == 0)
+            {
+                SoundManager.Instance.PlaySoundEffect(winP2);
+
+            }
+            else
+            {
+                SoundManager.Instance.PlaySoundEffect(winP1);
+
+            }
             deltaDir += (1 - id) * 2;
             Debug.Log(deltaDir);
             GameManager.instance.StartEndScreen(deltaDir);

@@ -1720,6 +1720,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: de513794efe78c64b880589a1ceed588, type: 3}
   - {fileID: 8300000, guid: c71bc4474ce3c5a4ebef48e1391ba822, type: 3}
   playerID: 0
+  winP1: {fileID: 8300000, guid: d6dccd668651a294cb6f68997828dd4a, type: 3}
+  winP2: {fileID: 8300000, guid: e66f2f91c053f674192412de7b117f18, type: 3}
 --- !u!114 &5478468661059339116
 MonoBehaviour:
   m_ObjectHideFlags: 0

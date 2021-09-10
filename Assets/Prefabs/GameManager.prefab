@@ -2081,7 +2081,7 @@ MonoBehaviour:
     m_Bits: 63
   gridObject: {fileID: 0}
   player2ArmVisuals: {fileID: -7386808196176430237, guid: 156574ee9b514cb4ba0a9486dfc0f3d1, type: 3}
-  endAnimator: {fileID: 0}
+  endAnimator: {fileID: 5573098701680023578}
   playerPrefab: {fileID: 8381559994800279827, guid: ee94a854c8dd3db43a245f3cdc8def0f, type: 3}
   playerSpawns: []
 --- !u!82 &6392067298417874860
@@ -2593,6 +2593,11 @@ PrefabInstance:
 --- !u!224 &5573098701680023579 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6760299826719463468, guid: cee5d5170f86e41448051ae685815de1, type: 3}
+  m_PrefabInstance: {fileID: 1190911152459841591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5573098701680023578 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6760299826719463469, guid: cee5d5170f86e41448051ae685815de1, type: 3}
   m_PrefabInstance: {fileID: 1190911152459841591}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1250445143040066491
