@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     public enum Endings {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour {
     private Controller[] playersController = null;
 
     [Header("Game")]
+    private List<GameObject> players;
     public LayerMask whatIsGround;
 
     public GameObject gridObject;
@@ -39,10 +41,12 @@ public class GameManager : MonoBehaviour {
     public GameObject playerPrefab;
     public List<Transform> playerSpawns = new List<Transform>();
 
+    public List<GameObject> maps;
+
     private void Awake() {
         instance = this;
 
-
+        players = new List<GameObject>();
         gridObject = transform.Find("Grid").gameObject;
         terrainDestruction = gridObject.GetComponent<TerrainDestruction>();
         assignedJoysticks = new List<int>();
@@ -57,11 +61,16 @@ public class GameManager : MonoBehaviour {
         playersController = new Controller[MAX_PLAYER];
 
         AssignAllJoysticksToSystemPlayer(true);
+        endAnimator.gameObject.SetActive(false);
     }
 
     void Update() {
         if (!gameStarted)
             UpdateMultPanel();
+
+        if (Input.GetKeyDown(KeyCode.I)) {
+            Restart();
+        }
     }
 
     private void ShowMultPanel(bool state = true) {
@@ -143,28 +152,34 @@ public class GameManager : MonoBehaviour {
 
             }
             spawnedPlayer.GetComponent<PlayerController>().playerController = ReInput.players.GetPlayer(i);
+            players.Add(spawnedPlayer);
         }
     }
 
     private MapInformation GetAMap() {
         int mapID = -1;
-        for (int i = 0; i < gridObject.transform.childCount; i++) {
-            GameObject child = gridObject.transform.GetChild(i).gameObject;
-            if (child.activeSelf) {
-                mapID = i;
-            }
-        }
+        //for (int i = 0; i < gridObject.transform.childCount; i++) {
+        //    GameObject child = gridObject.transform.GetChild(i).gameObject;
+        //    if (child.activeSelf) {
+        //        mapID = i;
+        //    }
+        //}
 
-        if (mapID == -1) {
-            mapID = Random.Range(0, gridObject.transform.childCount);
-        }
+        //if (mapID == -1) {
+        //}
+        mapID = Random.Range(0, maps.Count);
 
-        for (int i = 0; i < gridObject.transform.childCount; i++) {
-            gridObject.transform.GetChild(i).gameObject.SetActive(false);
-        }
+        //for (int i = 0; i < gridObject.transform.childCount; i++) {
+        //    gridObject.transform.GetChild(i).gameObject.SetActive(false);
+        //}
 
-        gridObject.transform.GetChild(mapID).gameObject.SetActive(true);
-        return gridObject.transform.GetChild(mapID).gameObject.GetComponent<MapInformation>();
+
+        GameObject obj = Instantiate(maps[mapID], gridObject.transform);
+        //gridObject.transform.GetChild(mapID).gameObject.SetActive(true);
+        obj.SetActive(true);
+
+        //return gridObject.transform.GetChild(mapID).gameObject.GetComponent<MapInformation>();
+        return obj.GetComponent<MapInformation>();
     }
 
     private bool AddController(Controller controller) {
@@ -217,6 +232,7 @@ public class GameManager : MonoBehaviour {
 
     public void StartEndScreen(int index) {
         if (ended) { return; }
+        endAnimator.gameObject.SetActive(true);
         endAnimator.SetFloat("Ending", index);
         ended = true;
     }
@@ -229,5 +245,20 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForEndOfFrame();
             timePassed += Time.deltaTime;
         }
+    }
+
+    public void Restart() {
+        endAnimator.SetFloat("Ending", -1);
+        endAnimator.gameObject.SetActive(false);
+        ended = false;
+        for (int i = 0; i < players.Count; i++) {
+            Destroy(players[i]);
+        }
+        for (int i = 0; i < gridObject.transform.childCount; i++) {
+            gridObject.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        mainCamera.transform.position = new Vector3(0, 0, -10);
+        BeginGame();
+        //SceneManager.LoadScene("SceneFinal");
     }
 }
