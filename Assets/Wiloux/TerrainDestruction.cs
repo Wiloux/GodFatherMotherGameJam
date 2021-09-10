@@ -44,7 +44,7 @@ public class TerrainDestruction : MonoBehaviour
     {
         if (terrain.GetTile(tilePos).name != "Metal")
         {
-            SoundManager.Instance.PlaySoundEffect(blockDestroy);
+            SoundManager.Instance.PlaySoundEffectDirt(blockDestroy);
             if (terrain.GetTile(tilePos).name == "Stone")
             {
 
@@ -57,7 +57,7 @@ public class TerrainDestruction : MonoBehaviour
         }
         else
         {
-            SoundManager.Instance.PlaySoundEffect(blockCantDestroy);
+            SoundManager.Instance.PlaySoundEffectDirt(blockCantDestroy);
         }
 
     }

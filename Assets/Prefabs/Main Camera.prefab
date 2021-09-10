@@ -61,7 +61,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -100,7 +100,7 @@ MonoBehaviour:
   objectToFollow: {fileID: 0}
   start: {fileID: 0}
   end: {fileID: 0}
-  scrollTime: 10
+  scrollTime: 30
   scrollTimeDecay: 0.1
   move: 0
 --- !u!114 &1644396817998204382

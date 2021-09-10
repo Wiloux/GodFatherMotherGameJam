@@ -17,7 +17,15 @@ public class SoundManager : MonoBehaviour
     {
         Instance = this;
     }
+    public AudioSource sfxDirt;
 
+
+    public void PlaySoundEffectDirt(AudioClip clip)
+    {
+        sfxDirt.pitch = Random.Range(0.9f, 1.1f);
+        sfxDirt.clip = clip;
+        sfxDirt.Play();
+    }
     public void PauseUnPauseMusic(bool pause = false)
     {
         if (pause)
