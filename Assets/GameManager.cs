@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
 
     public Animator endAnimator;
 
-    private bool ended = false;
+    public bool ended = false;
 
     public GameObject playerPrefab;
     public List<Transform> playerSpawns = new List<Transform>();
@@ -67,10 +67,6 @@ public class GameManager : MonoBehaviour {
     void Update() {
         if (!gameStarted)
             UpdateMultPanel();
-
-        if (Input.GetKeyDown(KeyCode.I)) {
-            Restart();
-        }
     }
 
     private void ShowMultPanel(bool state = true) {
@@ -254,5 +250,9 @@ public class GameManager : MonoBehaviour {
         mainCamera.GetComponent<CameraController>().StopMove();
         BeginGame();
         //SceneManager.LoadScene("SceneFinal");
+    }
+
+    public void Menu() {
+        SceneManager.LoadScene("Menu");
     }
 }
