@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 2600877192922729877}
   - component: {fileID: 2600877192922729882}
   - component: {fileID: 2600877192922729879}
+  - component: {fileID: 4748327860649712992}
   m_Layer: 3
   m_Name: Map4
   m_TagString: Untagged
@@ -8181,7 +8182,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16733,6 +16734,23 @@ MonoBehaviour:
   brokenTile: {fileID: 11400000, guid: 77720b389e6bb5f4c9a3f25c90af0ceb, type: 2}
   radius: 1
   terrain: {fileID: 2600877192922729883}
+--- !u!114 &4748327860649712992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2600877192922729886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7d5c3b39fec72479ac2afe3c339a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueSpawn: {fileID: 8904072740029771620}
+  redSpawn: {fileID: 6450636796791233062}
+  cameraMove: 1
+  start: {fileID: 4760167487241375395}
+  end: {fileID: 4760167486263075287}
 --- !u!1 &3111972068243306130
 GameObject:
   m_ObjectHideFlags: 0

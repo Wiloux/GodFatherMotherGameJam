@@ -129,10 +129,20 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        playerSpawns.Add(gridObject.transform.GetChild(mapID).Find("P1Spawn"));
-        playerSpawns.Add(gridObject.transform.GetChild(mapID).Find("P2Spawn"));
-        terrainDestruction.terrain = gridObject.transform.GetChild(mapID).GetComponent<Tilemap>();
+        MapInformation map = gridObject.transform.GetChild(mapID).gameObject.GetComponent<MapInformation>();
 
+        if (map.cameraMove) {
+            mainCamera.GetComponent<CameraController>().start = map.start;
+            mainCamera.GetComponent<CameraController>().end = map.end;
+            mainCamera.GetComponent<CameraController>().StartMove();
+        }
+
+        playerSpawns.Add(map.blueSpawn);
+        playerSpawns.Add(map.redSpawn);
+
+        //playerSpawns.Add(gridObject.transform.GetChild(mapID).Find("P1Spawn"));
+        //playerSpawns.Add(gridObject.transform.GetChild(mapID).Find("P2Spawn"));
+        terrainDestruction.terrain = map.GetComponent<Tilemap>();
 
         gameStarted = true;
         multiplayerPanel.SetActive(false);

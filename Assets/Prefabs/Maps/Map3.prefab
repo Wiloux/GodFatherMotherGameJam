@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 5092286366563259975}
   - component: {fileID: 5092286366563259974}
   - component: {fileID: 5092286366563259973}
+  - component: {fileID: 8025403470234880595}
   m_Layer: 3
   m_Name: Map3
   m_TagString: Untagged
@@ -11131,6 +11132,23 @@ MonoBehaviour:
   brokenTile: {fileID: 11400000, guid: 77720b389e6bb5f4c9a3f25c90af0ceb, type: 2}
   radius: 1
   terrain: {fileID: 5092286366563260026}
+--- !u!114 &8025403470234880595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5092286366563259971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7d5c3b39fec72479ac2afe3c339a85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueSpawn: {fileID: 3083240099680796468}
+  redSpawn: {fileID: 3979266016700102551}
+  cameraMove: 0
+  start: {fileID: 0}
+  end: {fileID: 0}
 --- !u!1 &8734525444816148529
 GameObject:
   m_ObjectHideFlags: 0

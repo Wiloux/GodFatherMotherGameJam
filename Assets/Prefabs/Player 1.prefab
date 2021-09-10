@@ -1026,6 +1026,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   characterAnimator: {fileID: 0}
   rocketAnimator: {fileID: 0}
+  menuFin: {fileID: 2294440600647458736, guid: 0bd46c07b75f74f49812eec95155646d, type: 3}
   playerID: 0
 --- !u!114 &5478468661059339116
 MonoBehaviour:

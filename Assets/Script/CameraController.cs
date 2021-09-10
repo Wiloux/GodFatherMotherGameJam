@@ -6,7 +6,7 @@ using ToolsBoxEngine;
 public class CameraController : MonoBehaviour {
     public Transform objectToFollow;
 
-    [SerializeField] private Transform start = null, end = null;
+    public Transform start = null, end = null;
     [SerializeField] private float scrollTime = 10f, scrollTimeDecay = 0.1f;
 
     private float actualScrollTime = 0f;
@@ -14,11 +14,34 @@ public class CameraController : MonoBehaviour {
 
     private CameraEngine engine = null;
 
+    [HideInInspector] public bool move = false;
+
     private void Awake() {
         engine = GetComponent<CameraEngine>();
     }
 
     private void Start() {
+        //StartMove();
+    }
+
+    private void Update() {
+        if (move) {
+            if (objectToFollow != null) {
+                engine.SetPosition(objectToFollow.position.To2D());
+                return;
+            }
+
+            if (start != null && end != null) {
+                if (Vector2.Dot(endPos - startPos, engine.Position - endPos) >= 0) {
+                    Vector2 temp = endPos; endPos = startPos; startPos = temp;
+                    actualScrollTime = actualScrollTime * (1f - scrollTimeDecay);
+                    engine.SetPositionIn(endPos, actualScrollTime);
+                }
+            }
+        }
+    }
+
+    public void StartMove() {
         if (objectToFollow != null) {
             engine.SetPosition(objectToFollow.position.To2D());
             return;
@@ -29,20 +52,7 @@ public class CameraController : MonoBehaviour {
         engine.Position = startPos;
         actualScrollTime = scrollTime;
         engine.SetPositionIn(endPos, actualScrollTime);
-    }
 
-    private void Update() {
-        if (objectToFollow != null) {
-            engine.SetPosition(objectToFollow.position.To2D());
-            return;
-        }
-
-        if (start != null && end != null) {
-            if (Vector2.Dot(endPos - startPos, engine.Position - endPos) >= 0) {
-                Vector2 temp = endPos; endPos = startPos; startPos = temp;
-                actualScrollTime = actualScrollTime * (1f - scrollTimeDecay);
-                engine.SetPositionIn(endPos, actualScrollTime);
-            }
-        }
+        move = true;
     }
 }
