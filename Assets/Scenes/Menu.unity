@@ -287,7 +287,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 706515829}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: BouttonJouer
+        m_MethodName: BouttonControl
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -911,7 +911,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.1257, y: 109}
+  m_AnchoredPosition: {x: 0.00002861, y: 172}
   m_SizeDelta: {x: 252.3119, y: 70.5272}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &901984416
@@ -1058,8 +1058,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 126.385025}
-  m_SizeDelta: {x: 0.4000244, y: 252.3721}
+  m_AnchoredPosition: {x: 0, y: 193.72603}
+  m_SizeDelta: {x: 0.4, y: 387.0541}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1867977993
 CanvasRenderer:
