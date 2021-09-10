@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb2D;
     private Animation anim;
 
+    public GameObject menuFin;
+
     public int playerID;
     void Start() {
         rb2D = GetComponent<Rigidbody2D>();
@@ -71,6 +73,7 @@ public class PlayerController : MonoBehaviour {
             characterAnimator = transform.Find("CharacterRoot/character2").GetComponent<Animator>();
 
         }
+        menuFin.SetActive (false);
     }
 
     private void FixedUpdate() {
@@ -312,6 +315,7 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.CompareTag("death")) {
             Time.timeScale = 0.4f;
             anim.Play("hastalavista");
+            menuFin.SetActive(true);
         }
     }
 }
