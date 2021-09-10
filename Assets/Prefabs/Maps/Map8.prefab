@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3233492785552936399}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.87, y: -4.49, z: 0}
+  m_LocalPosition: {x: -18.859999, y: 3.6200004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6846102380864323313}
@@ -84,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5254310033435675035}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.94, y: 70.8, z: 0}
+  m_LocalPosition: {x: -8.94, y: 82.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6846102380864323313}
@@ -114,7 +114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6303631248564301637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.89, y: -4.25, z: 0}
+  m_LocalPosition: {x: -19.9, y: -4.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6846102380864323313}
@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 707802188571313152}
   - component: {fileID: 120842607219545986}
   - component: {fileID: 8893503562064593228}
-  - component: {fileID: 6260858766146178417}
   m_Layer: 0
   m_Name: Map8
   m_TagString: Untagged
@@ -72574,20 +72573,3 @@ MonoBehaviour:
   brokenTile: {fileID: 11400000, guid: 77720b389e6bb5f4c9a3f25c90af0ceb, type: 2}
   radius: 0
   terrain: {fileID: 9186979383397246521}
---- !u!114 &6260858766146178417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7193642443619124369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad7d5c3b39fec72479ac2afe3c339a85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blueSpawn: {fileID: 4833591378425422669}
-  redSpawn: {fileID: 225087393762912567}
-  cameraMove: 1
-  start: {fileID: 7219170489840872844}
-  end: {fileID: 8323982611312825532}
