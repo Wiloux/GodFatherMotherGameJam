@@ -259,4 +259,8 @@ public class GameManager : MonoBehaviour {
     public void Menu() {
         SceneManager.LoadScene("Menu");
     }
+
+    public void Shake() {
+        mainCamera.GetComponent<CameraController>().Shake();
+    }
 }

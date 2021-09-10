@@ -40,12 +40,13 @@ public class Explosion : MonoBehaviour {
     private void Boum() {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
 
-
         for (int i = 0; i < colliders.Length; i++) {
             if (colliders[i].gameObject.CompareTag("Player")) {
                 KnockPlayer(colliders[i].gameObject.GetComponent<PlayerController>());
             }
         }
+
+        //GameManager.instance.Shake();
     }
 
     private void KnockPlayer(PlayerController player) {

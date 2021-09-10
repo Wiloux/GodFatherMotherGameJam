@@ -43,7 +43,6 @@ public class CameraEngine : MonoBehaviour {
 
     public void Shake(Vector2 delta, float time, float shakeTime = 0f) {
         if (shakeTime == 0f) { shakeTime = delta.magnitude / 10f; }
-        Debug.Log(shakeTime);
 
         if (shakeRoutine != null) { StopCoroutine(shakeRoutine); }
         shakeRoutine = StartCoroutine(IShake(delta, time, shakeTime));
@@ -61,6 +60,7 @@ public class CameraEngine : MonoBehaviour {
             transform.position += stepVector;
             yield return new WaitForSeconds(1f/60f);
         }
+        transform.position = position;
     }
 
     private IEnumerator ISetRotationIn(Quaternion rotation, float time) {
@@ -79,15 +79,19 @@ public class CameraEngine : MonoBehaviour {
         float timePassed = 0f;
         float clock = -1;
 
+        Debug.Log(transform.position + (Vector3)(delta) + " .. " + delta + " .. " + clock + " .. " + transform.position);
         SetPositionIn(transform.position + (Vector3)(delta), shakeTime/2f, false);
+        yield return new WaitForSeconds(0.01f);
 
         while (timePassed < time - shakeTime/2f) {
+            Debug.Log(transform.position + (Vector3)(delta * clock * 2f) + " .. " + (delta * 2f) + " .. " + clock + " .. " + transform.position);
             SetPositionIn(transform.position + (Vector3)(delta * clock * 2f), shakeTime, false);
-            yield return new WaitForSeconds(shakeTime);
+            yield return new WaitForSeconds(shakeTime + 0.01f);
             clock *= -1;
             timePassed += shakeTime;
         }
 
+        Debug.Log(transform.position + (Vector3)(delta * clock) + " .. " + delta + " .. " + clock + " .. " + transform.position);
         SetPositionIn(transform.position + (Vector3)(delta * clock), shakeTime/2f, false);
     }
 
