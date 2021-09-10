@@ -15,8 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Credits.unity
     guid: b8def2b9ddccfcf44a90f209b2a6bda1
   - enabled: 1
-    path: Assets/Scenes/SceneFinal.unity
-    guid: 58a0dabd5d736d84d9f90efabb15604f
+    path: Assets/Scenes/MapTestWiloux.unity
+    guid: 0948721b20f5c1b448ceec5441d3cc8f
   - enabled: 1
     path: Assets/Scenes/Control.unity
     guid: b9082c41b027f2e46b7f3008aa687dfa
