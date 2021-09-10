@@ -71,7 +71,14 @@ GameObject:
   - component: {fileID: 732332405715916191}
   - component: {fileID: 3050428665793940823}
   - component: {fileID: 7610906076954846913}
+<<<<<<< Updated upstream
   - component: {fileID: 1008696699210463185}
+=======
+  - component: {fileID: 7787336509757374408}
+  - component: {fileID: 6248188961613615798}
+  - component: {fileID: 4022488144505317776}
+  - component: {fileID: 2614096270266700389}
+>>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Map5
   m_TagString: Untagged
@@ -14897,7 +14904,11 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+<<<<<<< Updated upstream
 --- !u!114 &1008696699210463185
+=======
+--- !u!114 &7787336509757374408
+>>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14906,6 +14917,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3962897290514706431}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< Updated upstream
   m_Script: {fileID: 11500000, guid: ad7d5c3b39fec72479ac2afe3c339a85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -14914,6 +14926,75 @@ MonoBehaviour:
   cameraMove: 1
   start: {fileID: 3532050165518649058}
   end: {fileID: 2787521133006536658}
+=======
+  m_Script: {fileID: 11500000, guid: b688228a091901b46b51bf3a0bdbdde1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenTile: {fileID: 11400000, guid: 77720b389e6bb5f4c9a3f25c90af0ceb, type: 2}
+  radius: 1
+  terrain: {fileID: 3050428665793940823}
+  brockenBlock: {fileID: 8300000, guid: 0c53a82595dbf52419a8d097303c86ae, type: 3}
+  nonDestructibleBlock: {fileID: 8300000, guid: 224708a7cc385b943a1733804220ed21, type: 3}
+--- !u!19719996 &6248188961613615798
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962897290514706431}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
+--- !u!50 &4022488144505317776
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962897290514706431}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!66 &2614096270266700389
+CompositeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962897290514706431}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_GeometryType: 0
+  m_GenerationType: 0
+  m_EdgeRadius: 0
+  m_ColliderPaths: []
+  m_CompositePaths:
+    m_Paths: []
+  m_VertexDistance: 0.0005
+  m_OffsetDistance: 0
+>>>>>>> Stashed changes
 --- !u!1 &6289240573151981752
 GameObject:
   m_ObjectHideFlags: 0

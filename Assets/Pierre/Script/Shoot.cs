@@ -21,6 +21,9 @@ public class Shoot : MonoBehaviour
     public float cooldownDuration;
     private float cooldown;
 
+    public AudioClip shootSFX;
+
+
     void Start()
     {
         playerController = GetComponent<PlayerController>().playerController;
@@ -57,6 +60,8 @@ public class Shoot : MonoBehaviour
 
             if (playerController.GetButtonDown("Fire"))
             {
+                SoundManager.Instance.PlaySoundEffect(shootSFX);
+
                 GameObject rocket = Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
                 rocket.GetComponentInChildren<SpriteRenderer>().flipX = GetComponent<PlayerController>().isUpsideDown ? true : false;
                 rocket.GetComponent<Missile>().creator = GetComponent<PlayerController>();

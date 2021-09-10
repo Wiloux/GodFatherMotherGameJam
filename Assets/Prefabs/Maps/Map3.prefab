@@ -11132,6 +11132,7 @@ MonoBehaviour:
   brokenTile: {fileID: 11400000, guid: 77720b389e6bb5f4c9a3f25c90af0ceb, type: 2}
   radius: 1
   terrain: {fileID: 5092286366563260026}
+<<<<<<< Updated upstream
 --- !u!114 &8025403470234880595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11149,6 +11150,10 @@ MonoBehaviour:
   cameraMove: 0
   start: {fileID: 0}
   end: {fileID: 0}
+=======
+  brockenBlock: {fileID: 0}
+  nonDestructibleBlock: {fileID: 0}
+>>>>>>> Stashed changes
 --- !u!1 &8734525444816148529
 GameObject:
   m_ObjectHideFlags: 0

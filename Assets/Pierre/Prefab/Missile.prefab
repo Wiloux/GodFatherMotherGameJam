@@ -50,6 +50,7 @@ MonoBehaviour:
   knockBackRadius: 4
   explosion: {fileID: 5717775414975354252, guid: 27fc19eec0c2a5349899d325cdb8a545, type: 3}
   creator: {fileID: 0}
+  explosionSFX: {fileID: 8300000, guid: f992450d6477c7a4487513f74006673f, type: 3}
 --- !u!50 &5700105349731872615
 Rigidbody2D:
   serializedVersion: 4
