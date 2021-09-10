@@ -34,7 +34,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("SceneFinal");
     }
 
-    public void BouttonCredits()
+    public void BouttonControl()
+    {
+        SceneManager.LoadScene("Control");
+    }
+
+        public void BouttonCredits()
     {
         SceneManager.LoadScene("Credits");
     }
