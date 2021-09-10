@@ -10,6 +10,8 @@ public class Missile : MonoBehaviour {
     public PlayerController creator;
     public AudioClip explosionFX;
 
+    public GameObject expVFX;
+
     private void Start()
     {
         Destroy(gameObject, 10f);
@@ -19,6 +21,8 @@ public class Missile : MonoBehaviour {
         //if (collision.gameObject.name.Equals("Tilemap")) {
         if (GameManager.instance.whatIsGround.Contains(collision.gameObject.layer) && collision.GetComponent<PlayerController>() != creator) {
             SoundManager.Instance.PlaySoundEffect(explosionFX);
+            GameObject v = Instantiate(expVFX, transform.position, Quaternion.identity);
+            Destroy(v, 2f);
             GameManager.instance.terrainDestruction.DestroyTerrain(transform.position, radius);
             Explosion lastExplosion = Instantiate(explosion, transform.position, Quaternion.identity).GetComponent<Explosion>();
             lastExplosion.radius = knockBackRadius;
