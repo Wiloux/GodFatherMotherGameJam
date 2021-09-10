@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour {
 
     public List<GameObject> maps;
 
+    public bool canRestart = false;
+
     private void Awake() {
         instance = this;
 
@@ -249,6 +251,7 @@ public class GameManager : MonoBehaviour {
         playerSpawns.Clear();
         mainCamera.transform.position = new Vector3(0, 0, -10);
         mainCamera.GetComponent<CameraController>().StopMove();
+        canRestart = false;
         BeginGame();
         //SceneManager.LoadScene("SceneFinal");
     }

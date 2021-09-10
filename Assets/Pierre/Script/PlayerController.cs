@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour {
 
     void Update() {
         if (GameManager.instance.ended) {
+            if (!GameManager.instance.canRestart) { return; }
             if (playerController.GetButtonDown("Leave Game")) {
                 GameManager.instance.Menu();
             } else if (playerController.GetAnyButtonDown()) {
@@ -366,11 +367,11 @@ public class PlayerController : MonoBehaviour {
             }
             int id = playerID;
 
-            if (id == 0) {
-                SoundManager.Instance.PlaySoundEffect(winP2);
-            } else {
-                SoundManager.Instance.PlaySoundEffect(winP1);
-            }
+            //if (id == 0) {
+            //    SoundManager.Instance.PlaySoundEffect(winP2);
+            //} else {
+            //    SoundManager.Instance.PlaySoundEffect(winP1);
+            //}
 
             deltaDir += (1 - id) * 2;
             Debug.Log(deltaDir);
