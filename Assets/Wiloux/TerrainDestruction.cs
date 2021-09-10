@@ -11,6 +11,9 @@ public class TerrainDestruction : MonoBehaviour
     public float radius;
     public Tilemap terrain;
 
+    public AudioClip blockDestroy;
+    public AudioClip blockCantDestroy;
+
     public void DestroyTerrain(Vector3 explosionPosition, float radius)
     {
         for (int x = -(int)radius; x <= radius; x++)
@@ -41,6 +44,7 @@ public class TerrainDestruction : MonoBehaviour
     {
         if (terrain.GetTile(tilePos).name != "Metal")
         {
+            SoundManager.Instance.PlaySoundEffect(blockDestroy);
             if (terrain.GetTile(tilePos).name == "Stone")
             {
 
@@ -50,6 +54,10 @@ public class TerrainDestruction : MonoBehaviour
             {
                 terrain.SetTile(tilePos, null);
             }
+        }
+        else
+        {
+            SoundManager.Instance.PlaySoundEffect(blockCantDestroy);
         }
 
     }

@@ -7,9 +7,12 @@ public class Explosion : MonoBehaviour {
     public float knockBackForce = 20f;
     public float oblivionFactor = 1.3f;
 
+    public AudioClip explosionFX;
+
     void Start() {
         Boum();
         Destroy(gameObject, 2f);
+
         //StartCoroutine(DisableCollision());
     }
 
@@ -36,6 +39,7 @@ public class Explosion : MonoBehaviour {
 
     private void Boum() {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+
 
         for (int i = 0; i < colliders.Length; i++) {
             if (colliders[i].gameObject.CompareTag("Player")) {

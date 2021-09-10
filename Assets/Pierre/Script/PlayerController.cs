@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour {
 
     public GameObject menuFin;
 
+    public List<AudioClip> jump = new List<AudioClip>();
+
     public int playerID;
     void Start() {
         rb2D = GetComponent<Rigidbody2D>();
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour {
 
         if (playerController.GetButtonDown("Jump") && grounded) {
             jumping = true;
+            SoundManager.Instance.PlaySoundEffectList(jump);
         }
 
 

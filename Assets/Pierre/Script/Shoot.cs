@@ -15,6 +15,8 @@ public class Shoot : MonoBehaviour
 
     public float speed = 20f;
 
+    public AudioClip shootFX;
+
     public Vector2 aimDirection = Vector2.up;
     private Vector2 bulletDirection = Vector2.up;
 
@@ -57,6 +59,7 @@ public class Shoot : MonoBehaviour
 
             if (playerController.GetButtonDown("Fire"))
             {
+                SoundManager.Instance.PlaySoundEffect(shootFX);
                 GameObject rocket = Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
                 rocket.GetComponentInChildren<SpriteRenderer>().flipX = GetComponent<PlayerController>().isUpsideDown ? true : false;
                 rocket.GetComponent<Missile>().creator = GetComponent<PlayerController>();
