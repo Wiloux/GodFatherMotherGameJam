@@ -9787,9 +9787,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd72985653a0e74d85a462edbf9eaf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 2
-  knockBackForce: 18
-  oblivionFactor: 0.7
+  radius: 5
+  knockBackForce: 30
+  oblivionFactor: 1.1
   explosionFX: {fileID: 8300000, guid: f992450d6477c7a4487513f74006673f, type: 3}
 --- !u!58 &7536505718744631379
 CircleCollider2D:

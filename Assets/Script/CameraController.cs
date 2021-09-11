@@ -32,7 +32,8 @@ public class CameraController : MonoBehaviour {
             }
 
             if (start != null && end != null) {
-                if (Vector2.Dot(endPos - startPos, engine.Position - endPos) >= 0) {
+                Debug.Log((endPos - startPos).sqrMagnitude);
+                if (Vector2.Dot(endPos - startPos, engine.Position - endPos) >= 0 || (engine.Position - endPos).sqrMagnitude < 5f) {
                     Vector2 temp = endPos; endPos = startPos; startPos = temp;
                     actualScrollTime = actualScrollTime * (1f - scrollTimeDecay);
                     engine.SetPositionIn(endPos, actualScrollTime);
@@ -62,6 +63,10 @@ public class CameraController : MonoBehaviour {
     }
 
     public void Shake() {
-        engine.Shake(Vector2.one * 0.3f, 0.1f, 0.1f);
+        engine.Shake(Vector2.one * 0.1f, 0.1f, 0.1f);
+    }
+
+    public void Shake(Vector2 shakeDelta, float time) {
+        engine.Shake(shakeDelta, time, 0.1f);
     }
 }

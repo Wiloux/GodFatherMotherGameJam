@@ -11,4 +11,7 @@ public class MapInformation : MonoBehaviour {
     public bool cameraMove = false;
     public Transform start = null;
     public Transform end = null;
+
+    [Header("Background")]
+    public Color backgroundTint;
 }

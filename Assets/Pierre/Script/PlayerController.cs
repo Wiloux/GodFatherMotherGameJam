@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour {
     private bool jumping;
     public Transform groundCheck;
     public float groundedRadius;
+    public float groundedTime = 0.1f;
+    public float groundedTimer = 0f;
 
     [Header("Gravity")]
     public float gravityCooldownDuration;
@@ -63,13 +65,26 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb2D;
     private Animation anim;
 
-    public GameObject menuFin;
-
     public List<AudioClip> jump = new List<AudioClip>();
 
+    [Header("VFX")]
     public ParticleSystem jumpVFX;
+    public ParticleSystem activatePowerFx;
+    public ParticleSystem readyPowerFx;
+    public ParticleSystem psRun;
+    public GameObject deathVFX;
+    public ParticleSystem fxFlyingTrail;
+    bool gaveup = true;
 
-    public int playerID;
+    [Header("SFX")]
+    public AudioClip winP1;
+    public AudioClip winP2;
+    public AudioClip deathSFX;
+    public AudioClip sfxGravityChange;
+    public AudioClip sfxGravityLoaded;
+
+    [HideInInspector] public int playerID;
+
     void Start() {
         rb2D = GetComponent<Rigidbody2D>();
         if (playerID != 1) {
@@ -78,8 +93,6 @@ public class PlayerController : MonoBehaviour {
             characterAnimator = transform.Find("CharacterRoot/character2").GetComponent<Animator>();
 
         }
-
-        menuFin.SetActive(false);
     }
 
     private void FixedUpdate() {
@@ -108,15 +121,16 @@ public class PlayerController : MonoBehaviour {
 
         characterAnimator.SetFloat("Speed", Mathf.Abs(velocity.x));
 
-        if (playerController.GetButtonDown("Jump") && grounded) {
+        if (playerController.GetButtonDown("Jump") && (grounded || groundedTimer > 0f)) {
             jumpVFX.Play();
             jumping = true;
             SoundManager.Instance.PlaySoundEffectList(jump);
         }
 
-        if (playerController.GetAxis("Horizontal") != 0)
-            //    //body.flipX = playerController.GetAxis("Horizontal") > 0 ? true : false;
+        if (playerController.GetAxis("Horizontal") != 0 && !isTurningAround)
             body.localScale = body.localScale.Override(Mathf.Abs(body.localScale.x) * playerController.GetAxis("Horizontal") > 0 ? 1 : -1, Axis.X);
+        //else if (isTurningAround)
+        //    body.localScale = body.localScale.Override(Mathf.Abs(body.localScale.x) * -playerController.GetAxis("Horizontal") > 0 ? 1 : -1, Axis.X);
 
         float moveHorizontal = playerController.GetAxisRaw("Horizontal");
         moveDirection = new Vector2(moveHorizontal, 0f);
@@ -124,31 +138,28 @@ public class PlayerController : MonoBehaviour {
         if (gravityCooldown <= 0f && !gaveup) {
             gaveup = true;
             readyPowerFx.Play();
+            SoundManager.Instance.PlaySoundEffect(sfxGravityLoaded, 0.5f);
         }
 
         if (gravityCooldown <= 0f) {
-
             if (playerController.GetButtonDown("Gravity")) {
+                SoundManager.Instance.PlaySoundEffect(sfxGravityChange);
                 gaveup = false;
                 activatePowerFx.Play();
-                GetComponent<Shoot>().aimDirection *= -1;
-                GetComponent<Shoot>().UpdateAim();
                 isUpsideDown = !isUpsideDown;
                 gravity *= -1;
                 float yScale = transform.localScale.y * -1;
                 transform.localScale = new Vector3(0.5f, yScale, 1f);
                 gravityCooldown = gravityCooldownDuration;
+
+                Shoot shoot = GetComponent<Shoot>();
+                shoot.AimAt(shoot.aimDirection);
             }
 
         } else {
             gravityCooldown -= Time.deltaTime;
         }
     }
-
-
-    bool gaveup;
-    public ParticleSystem activatePowerFx;
-    public ParticleSystem readyPowerFx;
 
     public void TurnAround() {
         if (playerController.GetAxis("Horizontal") != 0)
@@ -162,6 +173,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void UpdateGravity() {
+        if (velocity.y * gravity > 0f) { velocity += Vector2.down * gravity; return; }
+        //if (externalForces.y > 0f) { velocity += Vector2.down * gravity; return; }
+
         grounded = false;
 
         //Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, GameManager.instance.whatIsGround);
@@ -174,27 +188,27 @@ public class PlayerController : MonoBehaviour {
 
         if (!grounded) {
             velocity += Vector2.down * gravity;
+            if (groundedTimer > 0f) { groundedTimer -= Time.fixedDeltaTime; }
         } else {
             if (!wasGrounded) {
                 characterAnimator.SetTrigger("GroundContact");
                 velocity.y = 0f;
+                groundedTimer = groundedTime;
             }
+        }
 
-            if (jumping) {
-                characterAnimator.ResetTrigger("GroundContact");
-                characterAnimator.SetTrigger("Jump");
-                if (!isUpsideDown)
-                    velocity.y += jumpForce;
-                else
-                    velocity.y -= jumpForce;
-            }
+        if (jumping) {
+            characterAnimator.ResetTrigger("GroundContact");
+            characterAnimator.SetTrigger("Jump");
+            velocity.y = 0f;
+            if (!isUpsideDown)
+                velocity.y += jumpForce;
+            else
+                velocity.y -= jumpForce;
         }
 
         jumping = false;
     }
-
-
-    public ParticleSystem psRun;
 
     private void UpdateMove() {
         bool isMoving = moveDirection != Vector2.zero;
@@ -204,7 +218,6 @@ public class PlayerController : MonoBehaviour {
 
                 if (Vector3.Dot(previousMoveDirection, moveDirection) < 0f) {
                     StartTurnAround();
-                    characterAnimator.SetBool("TurnAround", true);
                 }
             } else {
                 StartAcceleration();
@@ -237,20 +250,18 @@ public class PlayerController : MonoBehaviour {
             velocity.y = 0f;
         }
 
-        //if (externalForces.x * velocity.x < 0) {
-        //    if (Mathf.Abs(externalForces.x + velocity.x) > 0) {
-        //        externalForces.x += velocity.x;
-        //    } else {
-        //        externalForces.x = 0f;
-        //    }
-        //}
-
         if (externalForces.x > speedMax) {
             externalForces.x = ApplyFrictions(externalForces).x;
         }
 
         if (grounded) {
             externalForces.x = ApplyFrictions(externalForces).x;
+        }
+
+        if (fxFlyingTrail.isPlaying && externalForces == Vector2.zero) {
+            fxFlyingTrail.Stop();
+        } else if (!fxFlyingTrail.isPlaying && externalForces != Vector2.zero) {
+            fxFlyingTrail.Play();
         }
     }
 
@@ -319,6 +330,7 @@ public class PlayerController : MonoBehaviour {
         turnAroundTimer = 0f;
         turnAroundDuration = Mathf.Lerp(0f, turnAroundMaxDuration, Mathf.Abs(velocity.x) / speedMax);
         turnAroundStartSpeed = velocity.x;
+        characterAnimator.SetBool("TurnAround", true);
     }
 
     private Vector2 ApplyTurnAround() {
@@ -337,7 +349,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void ApplySpeed() {
-        rb2D.velocity = velocity + externalForces;
+        rb2D.velocity = (velocity + externalForces);
 
         wasGrounded = grounded;
     }
@@ -347,17 +359,12 @@ public class PlayerController : MonoBehaviour {
         velocity = Vector2.zero;
     }
 
-
-    public AudioClip winP1;
-    public AudioClip winP2;
-
-    public GameObject deathVFX;
-    public AudioClip deathSFX;
-
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("death")) {
+            if (GameManager.instance.ended) { return; }
             SoundManager.Instance.PlaySoundEffect(deathSFX);
-            GameObject o = Instantiate(deathVFX, transform.position, Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.down, velocity)));
+            GameObject o = Instantiate(deathVFX, transform.position, Quaternion.LookRotation(Vector3.forward, velocity + externalForces));
+            // Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.down, velocity)))
             Destroy(o, 3f);
 
             int deltaDir = 0;
@@ -367,25 +374,26 @@ public class PlayerController : MonoBehaviour {
             }
             int id = playerID;
 
-            //if (id == 0) {
-            //    SoundManager.Instance.PlaySoundEffect(winP2);
-            //} else {
-            //    SoundManager.Instance.PlaySoundEffect(winP1);
-            //}
-
             deltaDir += (1 - id) * 2;
-            Debug.Log(deltaDir);
             GameManager.instance.StartEndScreen(deltaDir);
         }
     }
 
-    public void BouttonJouer() {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("SceneFinal");
-    }
-
-    public void BouttonMenu() {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Menu");
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (externalForces != Vector2.zero && GameManager.instance.whatIsGround.Contains(collision.gameObject.layer)) {
+            Vector2 position = (Vector2)transform.position;
+            Vector2 barycenter = Vector2.zero;
+            for (int i = 0; i < collision.contactCount; i++) {
+                barycenter += collision.GetContact(i).point;
+            }
+            Vector2 contactPos = barycenter/ collision.contactCount;
+            Vector2 contactDelta = contactPos - position;
+            contactDelta.Normalize();
+            if (Mathf.Abs(contactDelta.x) > Mathf.Abs(contactDelta.y)) {
+                externalForces.x = 0f;
+            } else {
+                externalForces.y = 0f;
+            }
+        }
     }
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 using Rewired;
 using ToolsBoxEngine;
 
-public class Shoot : MonoBehaviour
-{
+public class Shoot : MonoBehaviour {
     public Rewired.Player playerController;
 
     public Transform firePoint;
+    public Transform rocketRoot;
     public GameObject bullet;
     public GameObject rocketVisual;
     public GameObject rocketLauncherVisual;
@@ -23,75 +23,54 @@ public class Shoot : MonoBehaviour
     public float cooldownDuration;
     private float cooldown;
 
-    void Start()
-    {
+    void Start() {
         playerController = GetComponent<PlayerController>().playerController;
 
         aimDirection = new Vector2(0f, 0f);
     }
 
-    void Update()
-    {
+    void Update() {
         Vector2 axis = Vector2.zero;
 
-        if (playerController.controllers.hasMouse)
-        {
+        if (playerController.controllers.hasMouse) {
             axis = GameManager.instance.mainCamera.ScreenToWorldPoint(playerController.controllers.Mouse.screenPosition) - transform.position;
-        }
-        else
-        {
+        } else {
             axis.x = playerController.GetAxis("AimHorizontal");
             axis.y = playerController.GetAxis("AimVertical");
         }
 
-        aimDirection.Set(axis.x, axis.y);
-        aimDirection.Normalize();
-        if (axis.x != 0f || axis.y != 0f)
-        {
-            UpdateAim();
+        if (axis.x != 0f || axis.y != 0f) {
+            aimDirection.Set(axis.x, axis.y);
+            aimDirection.Normalize();
+            AimAt(aimDirection);
         }
 
         rocketVisual.SetActive(cooldown <= 0);
 
-
-        if (cooldown <= 0)
-        {
-
-            if (playerController.GetButtonDown("Fire"))
-            {
-                SoundManager.Instance.PlaySoundEffect(shootFX);
-                GameObject rocket = Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
-                rocket.GetComponentInChildren<SpriteRenderer>().flipX = GetComponent<PlayerController>().isUpsideDown ? true : false;
-                rocket.GetComponent<Missile>().creator = GetComponent<PlayerController>();
-                rocket.GetComponent<Rigidbody2D>().AddForce(speed * bulletDirection, ForceMode2D.Impulse);
-                //Debug.DrawRay(rocket.transform.position, speed * bulletDirection, Color.green, 10f);
-                cooldown = cooldownDuration;
+        if (cooldown <= 0) {
+            if (playerController.GetButtonDown("Fire")) {
+                Fire(aimDirection);
             }
-        }
-        else
-        {
-
+        } else {
             cooldown -= Time.deltaTime;
         }
     }
 
+    public void AimAt(Vector2 direction) {
+        bulletDirection = direction;
 
-    public void UpdateAim()
-    {
-
-
-        if (GetComponent<PlayerController>().isUpsideDown)
-        {
-            firePoint.transform.rotation = Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.down, aimDirection));
-            bulletDirection = firePoint.transform.rotation * Vector2.down;
+        if (GetComponent<PlayerController>().isUpsideDown) {
+            direction *= -1;
         }
-        else
-        {
-            bulletDirection = firePoint.transform.rotation * Vector2.up;
-            firePoint.transform.rotation = Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.up, aimDirection));
-        }
+        rocketRoot.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+    }
 
-
-        bulletDirection.Normalize();
+    public void Fire(Vector2 direction) {
+        SoundManager.Instance.PlaySoundEffect(shootFX);
+        GameObject rocket = Instantiate(bullet, firePoint.transform.position, Quaternion.LookRotation(Vector3.forward, direction));
+        rocket.GetComponent<Missile>().creator = GetComponent<PlayerController>();
+        rocket.GetComponent<Rigidbody2D>().AddForce(speed * bulletDirection, ForceMode2D.Impulse);
+        rocket.GetComponent<Missile>().direction = direction;
+        cooldown = cooldownDuration;
     }
 }

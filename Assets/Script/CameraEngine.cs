@@ -15,9 +15,7 @@ public class CameraEngine : MonoBehaviour {
     #endregion
 
     void Start() {
-        //SetPositionIn(transform.position + Vector3.one * 10f, 5f);
-        //Shake(new Vector2(0.5f, 0.5f), 2f);
-        //StartCoroutine(Wait(Shake, Vector2.one * 0.5f, 1f, 0f, 3f));
+
     }
 
     public void SetPosition(Vector3 position) {
@@ -55,19 +53,15 @@ public class CameraEngine : MonoBehaviour {
         Vector3 deltaVector = position - basePosition;
         int frameNumber = Mathf.FloorToInt(time * 60f);
         Vector3 stepVector = deltaVector / (float)frameNumber;
-        //Vector3.Lerp(Vector3.zero, deltaVector, (float)i / (float)frameNumber)
         for (int i = 0; i < frameNumber; i++) {
             transform.position += stepVector;
             yield return new WaitForSeconds(1f/60f);
         }
-        transform.position = position;
     }
 
     private IEnumerator ISetRotationIn(Quaternion rotation, float time) {
         Quaternion baseRotation = transform.localRotation;
         int frameNumber = Mathf.FloorToInt(time * 60f);
-        //Quaternion stepVector = deltaVector / (float)frameNumber;
-        //Vector3.Lerp(Vector3.zero, deltaVector, (float)i / (float)frameNumber)
         for (int i = 0; i < frameNumber; i++) {
             transform.localRotation = Quaternion.Slerp(baseRotation, rotation, (float)i /(float)frameNumber);
             yield return new WaitForSeconds(1f / 60f);
@@ -75,23 +69,19 @@ public class CameraEngine : MonoBehaviour {
     }
 
     private IEnumerator IShake(Vector2 delta, float time, float shakeTime) {
-        //Vector3 basePosition = transform.position;
         float timePassed = 0f;
         float clock = -1;
 
-        Debug.Log(transform.position + (Vector3)(delta) + " .. " + delta + " .. " + clock + " .. " + transform.position);
         SetPositionIn(transform.position + (Vector3)(delta), shakeTime/2f, false);
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(shakeTime/2f + 0.01f);
 
         while (timePassed < time - shakeTime/2f) {
-            Debug.Log(transform.position + (Vector3)(delta * clock * 2f) + " .. " + (delta * 2f) + " .. " + clock + " .. " + transform.position);
             SetPositionIn(transform.position + (Vector3)(delta * clock * 2f), shakeTime, false);
             yield return new WaitForSeconds(shakeTime + 0.01f);
             clock *= -1;
             timePassed += shakeTime;
         }
 
-        Debug.Log(transform.position + (Vector3)(delta * clock) + " .. " + delta + " .. " + clock + " .. " + transform.position);
         SetPositionIn(transform.position + (Vector3)(delta * clock), shakeTime/2f, false);
     }
 

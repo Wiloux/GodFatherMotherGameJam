@@ -9,6 +9,9 @@ public class MainMenu : MonoBehaviour
     public void BouttonJouer()
     {
         Time.timeScale = 1f;
+        if (GameManager.instance != null) {
+            GameManager.instance.Start();
+        }
         SceneManager.LoadScene("MapTestWiloux");
     }
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6260072173191341683}
   - component: {fileID: 5700105349731872615}
   - component: {fileID: 3375032076828409181}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,6 +52,7 @@ MonoBehaviour:
   creator: {fileID: 0}
   explosionFX: {fileID: 8300000, guid: f992450d6477c7a4487513f74006673f, type: 3}
   expVFX: {fileID: 6151145429885673103, guid: 4de65649d63903548b356a4f0799b828, type: 3}
+  direction: {x: 0, y: 0}
 --- !u!50 &5700105349731872615
 Rigidbody2D:
   serializedVersion: 4
@@ -170,7 +171,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7045efba592b1484abb3cfb80104ed29, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -231,6 +232,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1561895621608294121, guid: 906e97156e3bbc943994dc5490f0e049, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159667052255578969, guid: 906e97156e3bbc943994dc5490f0e049, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2407611545740663309, guid: 906e97156e3bbc943994dc5490f0e049, type: 3}

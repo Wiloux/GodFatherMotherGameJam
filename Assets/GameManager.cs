@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
     [Header("Game")]
     private List<GameObject> players;
     public LayerMask whatIsGround;
+    public LayerMask whatGoBoum;
 
     public GameObject gridObject;
 
@@ -45,25 +46,35 @@ public class GameManager : MonoBehaviour {
 
     public bool canRestart = false;
 
+    private Coroutine slowMotionRoutine = null;
+
+    public SpriteRenderer background;
+
     private void Awake() {
+        if (instance != null) {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
 
-        players = new List<GameObject>();
         gridObject = transform.Find("Grid").gameObject;
         terrainDestruction = gridObject.GetComponent<TerrainDestruction>();
-        assignedJoysticks = new List<int>();
         ReInput.ControllerConnectedEvent += OnControllerConnected;
 
         if (mainCamera == null) { mainCamera = Camera.main; }
     }
 
-    void Start() {
+    public void Start() {
         ShowMultPanel(true);
 
         playersController = new Controller[MAX_PLAYER];
 
         AssignAllJoysticksToSystemPlayer(true);
         endAnimator.gameObject.SetActive(false);
+        assignedJoysticks = new List<int>();
+        players = new List<GameObject>();
     }
 
     void Update() {
@@ -80,7 +91,7 @@ public class GameManager : MonoBehaviour {
         if (multiplayerPanel == null) { return; }
 
         // P1 Start game
-        if (playersController[0] != null && ReInput.players.GetPlayer("P1").GetButtonDown("Start game")) {
+        if (playersController[0] != null && ReInput.players.GetPlayer("P1").GetButtonDown("Start game") && playersController[1] != null) {
             BeginGame();
         }
 
@@ -116,7 +127,15 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    private void ResestMultPanel() {
+        for (int i = 0; i < MAX_PLAYER; i++) {
+            multiplayerPanel.transform.GetChild(0).GetChild(i + 2).GetChild(0).gameObject.SetActive(true);
+            multiplayerPanel.transform.GetChild(0).GetChild(i + 2).GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
     void BeginGame() {
+        endAnimator.SetFloat("Ending", -1);
         MapInformation map = GetAMap();
 
         CameraController cameraController = mainCamera.GetComponent<CameraController>();
@@ -134,6 +153,8 @@ public class GameManager : MonoBehaviour {
         playerSpawns.Add(map.blueSpawn);
         playerSpawns.Add(map.redSpawn);
 
+        background.color = map.backgroundTint;
+
         //playerSpawns.Add(gridObject.transform.GetChild(mapID).Find("P1Spawn"));
         //playerSpawns.Add(gridObject.transform.GetChild(mapID).Find("P2Spawn"));
         //terrainDestruction.terrain = map.GetComponent<Tilemap>();
@@ -148,7 +169,7 @@ public class GameManager : MonoBehaviour {
             if (i != 0) {
                 spawnedPlayer.transform.position = playerSpawns[1].position;
                 spawnedPlayer.GetComponent<PlayerController>().playerID = 1;
-                spawnedPlayer.transform.Find("RocketRotate/RocketRoot/RocketCharacter1/CharacterArm").GetComponent<SpriteRenderer>().sprite = player2ArmVisuals;
+                spawnedPlayer.transform.Find("RocketRoot/RocketCharacter1/CharacterArm").GetComponent<SpriteRenderer>().sprite = player2ArmVisuals;
                 spawnedPlayer.transform.Find("CharacterRoot/character1").gameObject.SetActive(false);
             } else {
                 spawnedPlayer.transform.position = playerSpawns[0].position;
@@ -223,25 +244,31 @@ public class GameManager : MonoBehaviour {
         endAnimator.gameObject.SetActive(true);
         endAnimator.SetFloat("Ending", index);
         ended = true;
+        SlowMotion(0.2f);
     }
 
-    IEnumerator SlowMotion(float amount, float time) {
+    public void SlowMotion(float targetTime) {
+        if (slowMotionRoutine != null) { StopCoroutine(slowMotionRoutine); }
+        slowMotionRoutine = StartCoroutine(ISlowMotion(targetTime, 0.1f));
+    }
+
+    public IEnumerator ISlowMotion(float amount, float time) {
         float timePassed = 0f;
         float baseTimeScale = Time.timeScale;
         while (timePassed < time) {
             Time.timeScale = Mathf.Lerp(baseTimeScale, amount, timePassed / time);
+            Time.fixedDeltaTime = Time.timeScale * 0.02f;
             yield return new WaitForEndOfFrame();
             timePassed += Time.deltaTime;
         }
     }
 
-    public void Restart() {
+    public void Clean() {
         endAnimator.SetFloat("Ending", -1);
         endAnimator.gameObject.SetActive(false);
         ended = false;
         for (int i = 0; i < players.Count; i++) {
             players[i].SetActive(false);
-            Debug.Log("Players");
             Destroy(players[i]);
         }
         players.Clear();
@@ -252,15 +279,17 @@ public class GameManager : MonoBehaviour {
         mainCamera.transform.position = new Vector3(0, 0, -10);
         mainCamera.GetComponent<CameraController>().StopMove();
         canRestart = false;
+    }
+
+    public void Restart() {
+        Clean();
         BeginGame();
         //SceneManager.LoadScene("SceneFinal");
     }
 
     public void Menu() {
+        Clean();
+        ResestMultPanel();
         SceneManager.LoadScene("Menu");
-    }
-
-    public void Shake() {
-        mainCamera.GetComponent<CameraController>().Shake();
     }
 }

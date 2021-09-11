@@ -22,4 +22,8 @@ public class FXScript : MonoBehaviour {
     public void CanRestart() {
         GameManager.instance.canRestart = true;
     }
+
+    public void SlowMotion(float amount) {
+        GameManager.instance.SlowMotion(amount);
+    }
 }
