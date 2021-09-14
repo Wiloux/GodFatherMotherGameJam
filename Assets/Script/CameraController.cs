@@ -32,7 +32,6 @@ public class CameraController : MonoBehaviour {
             }
 
             if (start != null && end != null) {
-                Debug.Log((endPos - startPos).sqrMagnitude);
                 if (Vector2.Dot(endPos - startPos, engine.Position - endPos) >= 0 || (engine.Position - endPos).sqrMagnitude < 5f) {
                     Vector2 temp = endPos; endPos = startPos; startPos = temp;
                     actualScrollTime = actualScrollTime * (1f - scrollTimeDecay);

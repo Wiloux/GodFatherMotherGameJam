@@ -48,7 +48,7 @@ public class Shoot : MonoBehaviour {
         rocketVisual.SetActive(cooldown <= 0);
 
         if (cooldown <= 0) {
-            if (playerController.GetButtonDown("Fire")) {
+            if (playerController.GetButton("Fire")) {
                 Fire(aimDirection);
             }
         } else {

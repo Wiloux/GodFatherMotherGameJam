@@ -1027,7 +1027,7 @@ MonoBehaviour:
   groundedRadius: 0.2
   groundedTime: 0.06
   groundedTimer: 0
-  gravityCooldownDuration: 3
+  gravityCooldownDuration: 1.5
   isUpsideDown: 0
   body: {fileID: 7489715968258515481}
   sprite: {fileID: 0}

@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour {
             } else if (playerController.GetAnyButtonDown()) {
                 GameManager.instance.Restart();
             }
-            return;
+            //return;
         }
 
         if (grounded && velocity.x != 0 && !psRun.isPlaying)
@@ -201,6 +201,8 @@ public class PlayerController : MonoBehaviour {
             characterAnimator.ResetTrigger("GroundContact");
             characterAnimator.SetTrigger("Jump");
             velocity.y = 0f;
+            groundedTimer = 0f;
+            grounded = false;
             if (!isUpsideDown)
                 velocity.y += jumpForce;
             else
@@ -375,6 +377,7 @@ public class PlayerController : MonoBehaviour {
             int id = playerID;
 
             deltaDir += (1 - id) * 2;
+            gameObject.SetActive(false);
             GameManager.instance.StartEndScreen(deltaDir);
         }
     }
